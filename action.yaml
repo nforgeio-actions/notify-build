@@ -2,8 +2,11 @@
 # Sends a message to a Microsoft Teams channel URI.
 #
 # Each sending user sending messages will need a Teams channel URI for each channel
-# being targeted.  This URI references the name and optionally a profile image idenfifying
-# the user as well as a secret that authenticates the operation.
+# being targeted.  This URI identifies the user by name and optionally a profile image
+# and also includes a secret that authenticates the operation.  You can obtain channel
+# URIs by following:
+#
+#   https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using
 #
 # Channel URIs are secrets and should be persisted to the 1Password account for the user
 # and obtained at runtime via the noenFORGE deployment mechanisms.
@@ -12,12 +15,29 @@
 #       user-devops/TEAM_DEVOPS_CHANNEL[value] URI into the env.TEAM_DEVOPS_CHANNEL
 #       variable, making this available for subsequent actions in a workflow.
 
+# IMPLEMENTATION NOTES:
+# ---------------------
+# We're sending actionable cards using the Legacy Actionable Message format because the 
+# new Adaptive Card format is not currently supported by Microsoft Teams:
+#
+#   https://docs.microsoft.com/en-us/outlook/actionable-messages/message-card-reference
+#   https://messagecardplayground.azurewebsites.net/
+#   https://poszytek.eu/en/microsoft-en/microsoft-message-cards-the-ultimate-guide/
+
 name: send-team-message
 description: "Sends a message to a Microsoft Teams channel URI"
 inputs:
-  master-password:
-    description: "Specifies master 1Password to override [secrets.DEVBOT_MASTER_PASSWORD]"
-    required: false
+  channel-uri:
+    description: "Specifies the target Teams channel URI"
+    required: true
+  summary:
+    description: "Specifies the brief card summary"
+    required: true
+  title:
+    description: "Specifies the card title"
+    required: true
+  themeColor:
+    description: 
 runs:
   using: composite
   steps:
