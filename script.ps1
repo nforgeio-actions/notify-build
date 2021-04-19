@@ -76,7 +76,7 @@ if ([System.String]::IsNullOrEmpty($status))
     throw "[status] parameter is required."
 }
 
-if (($status -ne "ok") -or ($status -ne "warning") -or ($status -ne "error))
+if (($status -ne "ok") -or ($status -ne "warning") -or ($status -ne "error"))
 {
     throw "[$status] is not a valid status code."
 }
