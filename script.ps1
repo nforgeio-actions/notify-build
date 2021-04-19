@@ -46,6 +46,8 @@ function Send-BuildMessage
         [string] $status
     )
     
+    # Check the parameters.
+    
     if ([System.String]::IsNullOrEmpty($channelUri))
     {
         throw "[channelUri] parameter is required."
