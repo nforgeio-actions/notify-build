@@ -53,9 +53,7 @@ runs:
   steps:
   - shell: pwsh
     run: |
-      . ./script.ps1
-      
-      Send-OperationMessage
+      ./script.ps1
           -channelUri  "${{ inputs.channel-uri }}"
           -operation   "${{ inputs.operation }}"
           -startTime   "${{ inputs.start-time }}"
