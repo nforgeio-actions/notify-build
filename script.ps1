@@ -27,67 +27,65 @@
 #   elapsedTime     - Elapsed operation run time
 #   status          - Operation status, one of: 'ok', 'warning', or 'failed'
 
-function Send-OperationMessage
+[CmdletBinding()]
+param
+(
+    [Parameter(Position=0, Mandatory=1)]
+    [string] $channelUri,
+    [Parameter(Position=1, Mandatory=1)]
+    [string] $operation,
+    [Parameter(Position=2, Mandatory=1)]
+    [string] $startTime,
+    [Parameter(Position=3, Mandatory=1)]
+    [string] $endTime,
+    [Parameter(Position=4, Mandatory=1)]
+    [string] $elapsedTime,
+    [Parameter(Position=5, Mandatory=1)]
+    [string] $status
+)
+    
+# Check the parameters.
+
+if ([System.String]::IsNullOrEmpty($channelUri))
 {
-    [CmdletBinding()]
-    param
-    (
-        [Parameter(Position=0, Mandatory=1)]
-        [string] $channelUri,
-        [Parameter(Position=1, Mandatory=1)]
-        [string] $operation,
-        [Parameter(Position=2, Mandatory=1)]
-        [string] $startTime,
-        [Parameter(Position=3, Mandatory=1)]
-        [string] $endTime,
-        [Parameter(Position=4, Mandatory=1)]
-        [string] $elapsedTime,
-        [Parameter(Position=5, Mandatory=1)]
-        [string] $status
-    )
-    
-    # Check the parameters.
-    
-    if ([System.String]::IsNullOrEmpty($channelUri))
-    {
-        throw "[channelUri] parameter is required."
-    }
+    throw "[channelUri] parameter is required."
+}
 
-    if ([System.String]::IsNullOrEmpty($operation))
-    {
-        throw "[operation] parameter is required."
-    }
+if ([System.String]::IsNullOrEmpty($operation))
+{
+    throw "[operation] parameter is required."
+}
 
-    if ([System.String]::IsNullOrEmpty($startTime))
-    {
-        throw "[startTime] parameter is required."
-    }
+if ([System.String]::IsNullOrEmpty($startTime))
+{
+    throw "[startTime] parameter is required."
+}
 
-    if ([System.String]::IsNullOrEmpty($endTime))
-    {
-        throw "[endTime] parameter is required."
-    }
+if ([System.String]::IsNullOrEmpty($endTime))
+{
+    throw "[endTime] parameter is required."
+}
 
-    if ([System.String]::IsNullOrEmpty($elapsedTime))
-    {
-        throw "[elapsedTime] parameter is required."
-    }
+if ([System.String]::IsNullOrEmpty($elapsedTime))
+{
+    throw "[elapsedTime] parameter is required."
+}
 
-    if ([System.String]::IsNullOrEmpty($status))
-    {
-        throw "[status] parameter is required."
-    }
-    
-    if (($status -ne "ok") -or ($status -ne "warning") -or ($status -ne "error))
-    {
-        throw "[$status] is not a valid status code."
-    }
+if ([System.String]::IsNullOrEmpty($status))
+{
+    throw "[status] parameter is required."
+}
 
-    $workflowRunUri = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"
-    
-    # We're going to use search/replace to modify a template message.
-    
-    $message = 
+if (($status -ne "ok") -or ($status -ne "warning") -or ($status -ne "error))
+{
+    throw "[$status] is not a valid status code."
+}
+
+$workflowRunUri = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"
+
+# We're going to use search/replace to modify a template message.
+
+$message = 
 @'
 {
     "@type": "MessageCard",
@@ -125,16 +123,16 @@ function Send-OperationMessage
 }    
 '@
 
-    $message = $template.Replace("@operation", $operation)
-    $message = $template.Replace("@runner", $env:COMPUTERNAME)
-    $message = $template.Replace("@status", $status.ToUpper())
-    $message = $template.Replace("@startTime", $startTime)
-    $message = $template.Replace("@finishTime", $finishTime)
-    $message = $template.Replace("@elapsedTime", $elapsedTime)
-    $message = $template.Replace("@workflowRunUri", $workflowRunUri)
-    
-    # Post the message to Microsoft Teams.
-    
-    Invoke-WebRequest -Method "POST" -Uri $channelUri -ContentType "application/json" -Body $message
-}
+$message = $template.Replace("@operation", $operation)
+$message = $template.Replace("@runner", $env:COMPUTERNAME)
+$message = $template.Replace("@status", $status.ToUpper())
+$message = $template.Replace("@startTime", $startTime)
+$message = $template.Replace("@finishTime", $finishTime)
+$message = $template.Replace("@elapsedTime", $elapsedTime)
+$message = $template.Replace("@workflowRunUri", $workflowRunUri)
+
+# Post the message to Microsoft Teams.
+
+Invoke-WebRequest -Method "POST" -Uri $channelUri -ContentType "application/json" -Body $message
+
 
