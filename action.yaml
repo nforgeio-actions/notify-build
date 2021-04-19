@@ -53,6 +53,7 @@ runs:
   steps:
   - shell: pwsh
     run: |
+      ls
       ./script.ps1
           -channelUri  "${{ inputs.channel-uri }}"
           -operation   "${{ inputs.operation }}"
