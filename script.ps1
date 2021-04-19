@@ -20,7 +20,7 @@
 #
 # ARGUMENTS:
 #
-#   channelUri      - Target Teams channel webhook URI
+#   channel         - Target Teams channel webhook URI
 #   operation       - Identifies what's being built
 #   startTime       - Time when the operation started
 #   endTime         - Time when the operation completed or failed
@@ -31,7 +31,7 @@
 param
 (
     [Parameter(Position=0, Mandatory=1)]
-    [string] $channelUri,
+    [string] $channel,
     [Parameter(Position=1, Mandatory=1)]
     [string] $operation,
     [Parameter(Position=2, Mandatory=1)]
@@ -46,9 +46,9 @@ param
     
 # Check the parameters.
 
-if ([System.String]::IsNullOrEmpty($channelUri))
+if ([System.String]::IsNullOrEmpty($channel))
 {
-    throw "[channelUri] parameter is required."
+    throw "[channel] parameter is required."
 }
 
 if ([System.String]::IsNullOrEmpty($operation))
@@ -133,6 +133,6 @@ $message = $template.Replace("@workflowRunUri", $workflowRunUri)
 
 # Post the message to Microsoft Teams.
 
-Invoke-WebRequest -Method "POST" -Uri $channelUri -ContentType "application/json" -Body $message
+Invoke-WebRequest -Method "POST" -Uri $channel -ContentType "application/json" -Body $message
 
 
