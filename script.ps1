@@ -16,18 +16,18 @@
 # limitations under the License.
 
 #------------------------------------------------------------------------------
-# Sends a build related message.
+# Sends an automated operation related message to a Teams channel.
 #
 # ARGUMENTS:
 #
 #   channelUri      - Target Teams channel webhook URI
 #   operation       - Identifies what's being built
-#   startTime       - Time when the build started
-#   endTime         - Time when the build completed or failed
-#   elapsedTime     - Elapsed build time
+#   startTime       - Time when the operation started
+#   endTime         - Time when the operation completed or failed
+#   elapsedTime     - Elapsed operation run time
 #   status          - Operation status, one of: 'ok', 'warning', or 'failed'
 
-function Send-BuildMessage
+function Send-OperationMessage
 {
     [CmdletBinding()]
     param
