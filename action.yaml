@@ -45,4 +45,6 @@ runs:
   using: composite
   steps:
   - shell: pwsh
-    run: . ./script.ps1
+    run: |
+      . ./script.ps1
+      
