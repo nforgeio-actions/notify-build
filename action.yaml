@@ -55,3 +55,10 @@ runs:
     run: |
       . ./script.ps1
       
+      Send-OperationMessage
+          -channelUri  "${{ inputs.channel-uri }}"
+          -operation   "${{ inputs.operation }}"
+          -startTime   "${{ inputs.start-time }}"
+          -endTime     "${{ inputs.end-time }}"
+          -elapsedTime "${{ inputs.elapsed-time }}"
+          -status      "${{ inputs.status }}"
