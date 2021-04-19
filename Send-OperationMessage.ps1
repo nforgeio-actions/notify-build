@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# FILE:         script.ps1
+# FILE:         Send-OperationMessage.ps1
 # CONTRIBUTOR:  Jeff Lill
 # COPYRIGHT:    Copyright (c) 2005-2021 by neonFORGE LLC.  All rights reserved.
 #
