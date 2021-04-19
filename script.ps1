@@ -30,8 +30,8 @@
 function Send-BuildMessage
 {
     [CmdletBinding()]
-    param 
-	  (
+    param
+    (
         [Parameter(Position=0, Mandatory=1)]
         [string] $channelUri,
         [Parameter(Position=1, Mandatory=1)]
