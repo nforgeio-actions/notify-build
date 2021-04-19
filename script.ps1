@@ -22,12 +22,10 @@
 #
 #   channelUri      - Target Teams channel webhook URI
 #   operation       - Identifies what's being built
-#   workflowName:   - Identifies the workflow
 #   startTime       - Time when the build started
 #   endTime         - Time when the build completed or failed
 #   elapsedTime     - Elapsed build time
 #   status          - Operation status, one of: 'ok', 'warning', or 'failed'
-#   workflowRunUri  - URI to the workflow run
 
 function Send-BuildMessage
 {
@@ -39,17 +37,97 @@ function Send-BuildMessage
         [Parameter(Position=1, Mandatory=1)]
         [string] $operation,
         [Parameter(Position=2, Mandatory=1)]
-        [string] $workflowName,
-        [Parameter(Position=3, Mandatory=1)]
         [string] $startTime,
-        [Parameter(Position=4, Mandatory=1)]
+        [Parameter(Position=3, Mandatory=1)]
         [string] $endTime,
-        [Parameter(Position=5, Mandatory=1)]
+        [Parameter(Position=4, Mandatory=1)]
         [string] $elapsedTime,
-        [Parameter(Position=6, Mandatory=1)]
-        [string] $status,
+        [Parameter(Position=5, Mandatory=1)]
+        [string] $status
     )
-
     
+    if ([System.String]::IsNullOrEmpty($channelUri))
+    {
+        throw "[channelUri] parameter is required."
+    }
+
+    if ([System.String]::IsNullOrEmpty($operation))
+    {
+        throw "[operation] parameter is required."
+    }
+
+    if ([System.String]::IsNullOrEmpty($startTime))
+    {
+        throw "[startTime] parameter is required."
+    }
+
+    if ([System.String]::IsNullOrEmpty($endTime))
+    {
+        throw "[endTime] parameter is required."
+    }
+
+    if ([System.String]::IsNullOrEmpty($elapsedTime))
+    {
+        throw "[elapsedTime] parameter is required."
+    }
+
+    if ([System.String]::IsNullOrEmpty($status))
+    {
+        throw "[status] parameter is required."
+    }
+
+    $workflowRunUri = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"
+    
+    # We're going to use search/replace to modify a template message.
+    
+    $message = 
+@'
+{
+    "@type": "MessageCard",
+    "@context": "https://schema.org/extensions",
+    "themeColor": "3d006d",
+    "sections": [
+        {
+            "activityTitle": "@operation",
+            "activitySubtitle": "@runner",
+            "activityText": "@status",
+            "activityImage": "@statusLink"
+        },
+        {
+            "title": "Details:",
+            "facts": [
+                {
+                    "name": "started:",
+                    "value": "@startTime"
+                },
+                {
+                    "name": "finished:",
+                    "value": "@finishTime"
+                },
+                {
+                    "name": "elapsed:",
+                    "value": "@elapsedTime"
+                },
+                {
+                    "name": "link:",
+                    "value": "@workflowRunUri"
+                }
+            ]
+        }
+    ]
+}    
+'@
+
+    $message = $template.Replace("@operation", $operation)
+    $message = $template.Replace("@runner", $env:COMPUTERNAME)
+    $message = $template.Replace("@status", $status.ToUpper())
+    $message = $template.Replace("@startTime", $startTime)
+    $message = $template.Replace("@finishTime", $finishTime)
+    $message = $template.Replace("@elapsedTime", $elapsedTime)
+    $message = $template.Replace("@workflowRunUri", $workflowRunUri)
+    
+    # Post the message to Microsoft Teams.
+    
+    Invoke-WebRequest -Method "POST" -Uri $channelUri -ContentType "application/json" -Body $message
 }
 
