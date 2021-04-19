@@ -33,14 +33,21 @@ inputs:
   channel-uri:
     description: "Specifies the target Teams channel URI"
     required: true
-  summary:
-    description: "Specifies the brief card summary"
+  operation:
+    description: "Identifies the operation performed"
     required: true
-  title:
-    description: "Specifies the card title"
+  start-time:
+    description: "Indicates when the operation started"
     required: true
-  themeColor:
-    description: 
+  end-time:
+    description: "Indicates when the operation finished"
+    required: true
+  elapsed-time:
+    description: "Indicates how long the operation took"
+    required: true
+  status:
+    description: "Operations status, one of: 'ok', 'warning', or 'failed'"
+    required: true
 runs:
   using: composite
   steps:
