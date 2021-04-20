@@ -52,11 +52,29 @@ $endTime     = Get-ActionInput "end-time"     -required
 $elapsedTime = Get-ActionInput "elapsed-time" -required
 $status      = Get-ActionInput "status"       -required
 
-"status = [$status]"
+# Determine the devbot image link based on the status.
 
-if (($status -ne "ok") -and ($status -ne "warning") -and ($status -ne "error"))
+Switch ($status)
 {
-    throw "[$status] is not a valid status code."
+    "ok"
+    {
+        $statusLink = "https://github.com/nforgeio-actions/images/blob/master/teams/ok.png"
+    }
+    
+    "warning"
+    {
+        $statusLink = "https://github.com/nforgeio-actions/images/blob/master/teams/warning.png"
+    }
+    
+    "error"
+    {
+        $statusLink = "https://github.com/nforgeio-actions/images/blob/master/teams/error.png"
+    }
+    
+    default
+    {
+        throw "[$status] is not a valid status code."
+    }
 }
 
 $workflowRunUri = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"
@@ -69,7 +87,7 @@ $message =
     "@type": "MessageCard",
     "@context": "https://schema.org/extensions",
     "themeColor": "3d006d",
-    "summary": "devbot: automation",
+    "summary": "neon automation",
     "sections": [
         {
             "activityTitle": "@operation",
@@ -105,6 +123,7 @@ $message =
 $message  = $message.Replace("@operation", $operation)
 $message  = $message.Replace("@runner", $env:COMPUTERNAME)
 $message  = $message.Replace("@status", $status.ToUpper())
+$message  = $message.Replace("@statusLink", $statusLink)
 $message  = $message.Replace("@startTime", $startTime)
 $message  = $message.Replace("@finishTime", $finishTime)
 $message  = $message.Replace("@elapsedTime", $elapsedTime)
