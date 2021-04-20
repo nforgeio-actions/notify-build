@@ -58,5 +58,5 @@ runs:
   steps:
   - shell: pwsh
     run: |
-      echo "channel = {{ inputs.channel }}"
+      echo "channel = ${{ inputs.channel }}"
       ${{ github.action_path }}/script.ps1
