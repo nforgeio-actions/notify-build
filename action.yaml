@@ -57,4 +57,6 @@ runs:
   using: composite
   steps:
   - shell: pwsh
-    run: ${{ github.action_path }}/script.ps1
+    run: |
+      echo "channel = {{ inputs.channel }}"
+      ${{ github.action_path }}/script.ps1
