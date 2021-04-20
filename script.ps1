@@ -52,6 +52,8 @@ $endTime     = Get-ActionInput "end-time"
 $elapsedTime = Get-ActionInput "elapsed-time"
 $status      = Get-ActionInput "status"
 
+dir env:
+
 if ([System.String]::IsNullOrEmpty($channel))
 {
     throw "[channel] input is required."
