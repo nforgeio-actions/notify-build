@@ -45,14 +45,14 @@ Pop-Location
       
 # Fetch the inputs.
 
-dir env:
-
 $channel     = Get-ActionInput "channel"      -required
 $operation   = Get-ActionInput "operation"    -required
 $startTime   = Get-ActionInput "start-time"   -required
 $endTime     = Get-ActionInput "end-time"     -required
 $elapsedTime = Get-ActionInput "elapsed-time" -required
 $status      = Get-ActionInput "status"       -required
+
+"status = [$status]"
 
 if (($status -ne "ok") -and ($status -ne "warning") -and ($status -ne "error"))
 {
