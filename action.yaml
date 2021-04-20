@@ -68,11 +68,18 @@ runs:
       # really for scripting languages like Powershell and Bash, although
       # they talk about them a lot.
       #
-      # The weird thing is that the inputs are 
+      # The weird thing is that the inputs are actually available here
+      # via string interpolation, GitHub just doesn't set the environment
+      # variables.  We're going hack that up ourselves.
+      
+      [System.Environment]::SetEnvironmentVariable("INPUT_channel", "${{ channel }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_operation", "${{ operation }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_start-time", "${{ start-time }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_end-time", "${{ end-time }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_elapsed-time", "${{ elapsed-time }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_status", "${{ status }}")
       
       # Call the script
       
       ${{ github.action_path }}/script.ps1
-    inputs: 
-      channel:
-        value: ${{ channel }}
+
