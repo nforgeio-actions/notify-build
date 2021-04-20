@@ -37,6 +37,8 @@ if (![System.IO.Directory]::Exists($ncRoot))
 
 $ncPowershell = [System.IO.Path]::Combine($ncRoot, "Powershell")
 
+Write-Output $"ncPowershell = $ncPowershell"
+
 Push-Location $ncPowershell
 . ./includes.ps1
 Pop-Location
