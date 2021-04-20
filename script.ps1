@@ -101,12 +101,12 @@ $message =
 }    
 '@
 
-$message  = $message .Replace("@operation", $operation)
-$message  = $message .Replace("@runner", $env:COMPUTERNAME)
-$message  = $message .Replace("@status", $status.ToUpper())
-$message  = $message .Replace("@startTime", $startTime)
-$message  = $message .Replace("@finishTime", $finishTime)
-$message  = $message .Replace("@elapsedTime", $elapsedTime)
+$message  = $message.Replace("@operation", $operation)
+$message  = $message.Replace("@runner", $env:COMPUTERNAME)
+$message  = $message.Replace("@status", $status.ToUpper())
+$message  = $message.Replace("@startTime", $startTime)
+$message  = $message.Replace("@finishTime", $finishTime)
+$message  = $message.Replace("@elapsedTime", $elapsedTime)
 
 # Post the message to Microsoft Teams.
 
