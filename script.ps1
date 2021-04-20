@@ -69,7 +69,7 @@ $message =
     "@type": "MessageCard",
     "@context": "https://schema.org/extensions",
     "themeColor": "3d006d",
-    "summary": "",
+    "summary": "devbot: automation",
     "sections": [
         {
             "activityTitle": "@operation",
