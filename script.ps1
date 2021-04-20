@@ -137,7 +137,6 @@ $message = $template.Replace("@status", $status.ToUpper())
 $message = $template.Replace("@startTime", $startTime)
 $message = $template.Replace("@finishTime", $finishTime)
 $message = $template.Replace("@elapsedTime", $elapsedTime)
-$message = $template.Replace("@channel", $channel)
 
 # Post the message to Microsoft Teams.
 
