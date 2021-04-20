@@ -12,61 +12,52 @@ Write-Output "HELLO WORLD!"
 #------------------------------------------------------------------------------
 # Sends an automated operation related message to a Teams channel.
 #
-# ARGUMENTS:
+# INPUTS:
 #
 #   channel         - Target Teams channel webhook URI
 #   operation       - Identifies what's being built
-#   startTime       - Time when the operation started
-#   endTime         - Time when the operation completed or failed
-#   elapsedTime     - Elapsed operation run time
+#   start-time      - Time when the operation started
+#   end-time        - Time when the operation completed or failed
+#   elapsed-time    - Elapsed operation run time
 #   status          - Operation status, one of: 'ok', 'warning', or 'failed'
-
-param
-(
-    [Parameter(Position=0, Mandatory=1)]
-    [string] $channel,
-    [Parameter(Position=1, Mandatory=1)]
-    [string] $operation,
-    [Parameter(Position=2, Mandatory=1)]
-    [string] $startTime,
-    [Parameter(Position=3, Mandatory=1)]
-    [string] $endTime,
-    [Parameter(Position=4, Mandatory=1)]
-    [string] $elapsedTime,
-    [Parameter(Position=5, Mandatory=1)]
-    [string] $status
-)
     
-# Check the parameters.
+# Fetch the inputs.
+
+$channel     = Get-ActionIput "channel"
+$operation   = Get-ActionIput "operation"
+$startTime   = Get-ActionIput "start-time"
+$endTime     = Get-ActionIput "end-time"
+$elapsedTime = Get-ActionIput "elapsed-time"
+$status      = Get-ActionIput "status"
 
 if ([System.String]::IsNullOrEmpty($channel))
 {
-    throw "[channel] parameter is required."
+    throw "[channel] input is required."
 }
 
 if ([System.String]::IsNullOrEmpty($operation))
 {
-    throw "[operation] parameter is required."
+    throw "[operation] input is required."
 }
 
 if ([System.String]::IsNullOrEmpty($startTime))
 {
-    throw "[startTime] parameter is required."
+    throw "[start-time] input is required."
 }
 
 if ([System.String]::IsNullOrEmpty($endTime))
 {
-    throw "[endTime] parameter is required."
+    throw "[end-time] input is required."
 }
 
 if ([System.String]::IsNullOrEmpty($elapsedTime))
 {
-    throw "[elapsedTime] parameter is required."
+    throw "[elapsed-tTime] input is required."
 }
 
 if ([System.String]::IsNullOrEmpty($status))
 {
-    throw "[status] parameter is required."
+    throw "[status] input is required."
 }
 
 if (($status -ne "ok") -and ($status -ne "warning") -and ($status -ne "error"))
@@ -96,19 +87,19 @@ $message =
             "facts": [
                 {
                     "name": "started:",
-                    "value": "@startTime"
+                    "value": "@start-time"
                 },
                 {
                     "name": "finished:",
-                    "value": "@finishTime"
+                    "value": "@finish-time"
                 },
                 {
                     "name": "elapsed:",
-                    "value": "@elapsedTime"
+                    "value": "@elapsed-time"
                 },
                 {
                     "name": "link:",
-                    "value": "@workflowRunUri"
+                    "value": "@@channel"
                 }
             ]
         }
@@ -122,7 +113,7 @@ $message = $template.Replace("@status", $status.ToUpper())
 $message = $template.Replace("@startTime", $startTime)
 $message = $template.Replace("@finishTime", $finishTime)
 $message = $template.Replace("@elapsedTime", $elapsedTime)
-$message = $template.Replace("@workflowRunUri", $workflowRunUri)
+$message = $template.Replace("@channel", $channel)
 
 # Post the message to Microsoft Teams.
 
