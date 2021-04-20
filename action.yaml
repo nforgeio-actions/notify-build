@@ -74,9 +74,9 @@ runs:
       
       [System.Environment]::SetEnvironmentVariable("INPUT_channel", "${{ inputs.channel }}")
       [System.Environment]::SetEnvironmentVariable("INPUT_operation", "${{ inputs.operation }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_start_time", "${{ inputs.start-time }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_end_time", "${{ inputs.end-time }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_elapsed_time", "${{ inputs.elapsed-time }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_start-time", "${{ inputs.start-time }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_end-time", "${{ inputs.end-time }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_elapsed-time", "${{ inputs.elapsed-time }}")
       [System.Environment]::SetEnvironmentVariable("INPUT_status", "${{ inputs.status }}")
       
       # Call the script
