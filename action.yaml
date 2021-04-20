@@ -58,5 +58,21 @@ runs:
   steps:
   - shell: pwsh
     run: |
-      echo "channel = ${{ inputs.channel }}"
+      # $hack(jefflill):
+      #
+      # I just figured out that input values are not made available as
+      # "INPUT_name" environment variables for composite actions like 
+      # this one.  The GitHub documentation doesn't mention this and 
+      # this has been driving me nuts for hours.  It looks like GitHub
+      # actions are really designed for javascript or Docker and not
+      # really for scripting languages like Powershell and Bash, although
+      # they talk about them a lot.
+      #
+      # The weird thing is that the inputs are 
+      
+      # Call the script
+      
       ${{ github.action_path }}/script.ps1
+    inputs: 
+      channel:
+        value: ${{ channel }}
