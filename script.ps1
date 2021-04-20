@@ -47,42 +47,12 @@ Pop-Location
 
 dir env:
 
-$channel     = Get-ActionInput "channel"
-$operation   = Get-ActionInput "operation"
-$startTime   = Get-ActionInput "start-time"
-$endTime     = Get-ActionInput "end-time"
-$elapsedTime = Get-ActionInput "elapsed-time"
-$status      = Get-ActionInput "status"
-
-if ([System.String]::IsNullOrEmpty($channel))
-{
-    throw "[channel] input is required."
-}
-
-if ([System.String]::IsNullOrEmpty($operation))
-{
-    throw "[operation] input is required."
-}
-
-if ([System.String]::IsNullOrEmpty($startTime))
-{
-    throw "[start-time] input is required."
-}
-
-if ([System.String]::IsNullOrEmpty($endTime))
-{
-    throw "[end-time] input is required."
-}
-
-if ([System.String]::IsNullOrEmpty($elapsedTime))
-{
-    throw "[elapsed-tTime] input is required."
-}
-
-if ([System.String]::IsNullOrEmpty($status))
-{
-    throw "[status] input is required."
-}
+$channel     = Get-ActionInput "channel"      -required
+$operation   = Get-ActionInput "operation"    -required
+$startTime   = Get-ActionInput "start-time"   -required
+$endTime     = Get-ActionInput "end-time"     -required
+$elapsedTime = Get-ActionInput "elapsed-time" -required
+$status      = Get-ActionInput "status"       -required
 
 if (($status -ne "ok") -and ($status -ne "warning") -and ($status -ne "error"))
 {
