@@ -93,7 +93,7 @@ $message =
             "activityTitle": "@operation",
             "activitySubtitle": "@runner",
             "activityText": "@status",
-            "activityImage": "@statusLink"
+            "activityImage": "@status-link"
         },
         {
             "title": "",
@@ -124,9 +124,9 @@ $message  = $message.Replace("@operation", $operation)
 $message  = $message.Replace("@runner", $env:COMPUTERNAME)
 $message  = $message.Replace("@status", $status.ToUpper())
 $message  = $message.Replace("@statusLink", $statusLink)
-$message  = $message.Replace("@startTime", $startTime)
-$message  = $message.Replace("@finishTime", $finishTime)
-$message  = $message.Replace("@elapsedTime", $elapsedTime)
+$message  = $message.Replace("@start-time", $startTime)
+$message  = $message.Replace("@finish-time", $finishTime)
+$message  = $message.Replace("@elapsed-time", $elapsedTime)
 
 # Post the message to Microsoft Teams.
 
