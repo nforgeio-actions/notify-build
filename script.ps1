@@ -19,7 +19,6 @@
 #   elapsedTime     - Elapsed operation run time
 #   status          - Operation status, one of: 'ok', 'warning', or 'failed'
 
-[CmdletBinding()]
 param
 (
     [Parameter(Position=0, Mandatory=1)]
