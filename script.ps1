@@ -112,7 +112,7 @@ $message =
                 },
                 {
                     "name": "link:",
-                    "value": "@@channel"
+                    "value": "@channel"
                 }
             ]
         }
