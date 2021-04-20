@@ -61,4 +61,4 @@ runs:
   using: composite
   steps:
   - shell: pwsh
-    run: ${{ github.action_path }}/script.ps1 -channel "${{ inputs.channel }}" -operation "${{ inputs.operation }}" -startTime "${{ inputs.start-time }}" -endTime "${{ inputs.end-time }}" -elapsedTime "${{ inputs.elapsed-time }}" -status "${{ inputs.status }}"
+    run: ${{ github.action_path }}/script.ps1
