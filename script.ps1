@@ -19,6 +19,28 @@
 #   elapsed-time    - Elapsed operation run time
 #   status          - Operation status, one of: 'ok', 'warning', or 'failed'
     
+# Verify that we're running on a properly configured neonFORGE jobrunner 
+# and import the deployment and action scripts from neonCLOUD.
+
+# NOTE: This assumes that the required [$NC_ROOT/Powershell/*.ps1] files
+#       in the current clone of the repo on the runner are up-to-date
+#       enough to be able to obtain secrets and use GitHub Action functions.
+#       If this is not the case, you'll have to manually pull the repo 
+#       first on the runner.
+
+$ncRoot = $env:NC_ROOT
+
+if (![System.IO.Directory]::Exists($ncRoot))
+{
+  throw "Runner Config: neonCLOUD repo is not present."
+}
+
+$ncPowershell = [System.IO.Path]::Combine($ncRoot, "Powershell")
+
+Push-Location $ncPowershell
+. ./includes.ps1
+Pop-Location
+      
 # Fetch the inputs.
 
 $channel     = Get-ActionInput "channel"
