@@ -15,7 +15,7 @@
 #   channel         - Target Teams channel webhook URI
 #   operation       - Identifies what's being built
 #   start-time      - Time when the operation started
-#   finished-time   - Time when the operation completed or failed
+#   finish-time     - Time when the operation completed or failed
 #   elapsed-time    - Elapsed operation run time
 #   status          - Operation status, one of: 'ok', 'warning', or 'failed'
     
@@ -45,12 +45,12 @@ Pop-Location
       
 # Fetch the inputs.
 
-$channel      = Get-ActionInput "channel"       -required
-$operation    = Get-ActionInput "operation"     -required
-$startTime    = Get-ActionInput "start-time"    -required
-$finishedTime = Get-ActionInput "finished-time" -required
-$elapsedTime  = Get-ActionInput "elapsed-time"  -required
-$status       = Get-ActionInput "status"        -required
+$channel     = Get-ActionInput "channel"      -required
+$operation   = Get-ActionInput "operation"    -required
+$startTime   = Get-ActionInput "start-time"   -required
+$finishTime  = Get-ActionInput "finish-time"  -required
+$elapsedTime = Get-ActionInput "elapsed-time" -required
+$status      = Get-ActionInput "status"       -required
 
 # Determine the devbot image link based on the status.
 
