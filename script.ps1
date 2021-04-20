@@ -21,12 +21,12 @@
     
 # Fetch the inputs.
 
-$channel     = Get-ActionIput "channel"
-$operation   = Get-ActionIput "operation"
-$startTime   = Get-ActionIput "start-time"
-$endTime     = Get-ActionIput "end-time"
-$elapsedTime = Get-ActionIput "elapsed-time"
-$status      = Get-ActionIput "status"
+$channel     = Get-ActionInput "channel"
+$operation   = Get-ActionInput "operation"
+$startTime   = Get-ActionInput "start-time"
+$endTime     = Get-ActionInput "end-time"
+$elapsedTime = Get-ActionInput "elapsed-time"
+$status      = Get-ActionInput "status"
 
 if ([System.String]::IsNullOrEmpty($channel))
 {
