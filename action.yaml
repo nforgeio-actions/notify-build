@@ -72,12 +72,12 @@ runs:
       # via string interpolation, GitHub just doesn't set the environment
       # variables.  We're going hack that up ourselves.
       
-      [System.Environment]::SetEnvironmentVariable("INPUT_channel", "${{ channel }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_operation", "${{ operation }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_start-time", "${{ start-time }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_end-time", "${{ end-time }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_elapsed-time", "${{ elapsed-time }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_status", "${{ status }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_channel", "${{ inputs.channel }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_operation", "${{ inputs.operation }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_start-time", "${{ inputs.start-time }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_end-time", "${{ inputs.end-time }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_elapsed-time", "${{ inputs.elapsed-time }}")
+      [System.Environment]::SetEnvironmentVariable("INPUT_status", "${{ inputs.status }}")
       
       # Call the script
       
