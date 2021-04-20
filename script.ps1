@@ -96,7 +96,7 @@ $message =
             "activityImage": "@statusLink"
         },
         {
-            "title": "Details:",
+            "title": "",
             "facts": [
                 {
                     "name": "started:",
