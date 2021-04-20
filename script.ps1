@@ -7,6 +7,8 @@
 # divulged or used for any purpose by other organizations or individuals without a
 # formal written and signed agreement with neonFORGE, LLC.
 
+Write-Output "HELLO WORLD!"
+
 #------------------------------------------------------------------------------
 # Sends an automated operation related message to a Teams channel.
 #
