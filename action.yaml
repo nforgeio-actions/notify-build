@@ -19,10 +19,6 @@
 #
 # Channel URIs are secrets and should be persisted to the 1Password account for the user
 # and obtained at runtime via the noenFORGE deployment mechanisms.
-#
-# NOTE: The nforgeio-actions/neon-environment action automatically loads the 
-#       user-devops/TEAM_DEVOPS_CHANNEL[value] URI into the env.TEAM_DEVOPS_CHANNEL
-#       variable, making this available for subsequent actions in a workflow.
 
 # IMPLEMENTATION NOTES:
 # ---------------------
