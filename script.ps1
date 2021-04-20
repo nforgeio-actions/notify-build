@@ -101,15 +101,15 @@ $message =
 }    
 '@
 
-$message = $template.Replace("@operation", $operation)
-$message = $template.Replace("@runner", $env:COMPUTERNAME)
-$message = $template.Replace("@status", $status.ToUpper())
-$message = $template.Replace("@startTime", $startTime)
-$message = $template.Replace("@finishTime", $finishTime)
-$message = $template.Replace("@elapsedTime", $elapsedTime)
+$template = $template.Replace("@operation", $operation)
+$template = $template.Replace("@runner", $env:COMPUTERNAME)
+$template = $template.Replace("@status", $status.ToUpper())
+$template = $template.Replace("@startTime", $startTime)
+$template = $template.Replace("@finishTime", $finishTime)
+$template = $template.Replace("@elapsedTime", $elapsedTime)
 
 # Post the message to Microsoft Teams.
 
-Invoke-WebRequest -Method "POST" -Uri $channel -ContentType "application/json" -Body $message
+Invoke-WebRequest -Method "POST" -Uri $channel -ContentType "application/json" -Body $template
 
 
