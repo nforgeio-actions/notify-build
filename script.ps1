@@ -45,12 +45,12 @@ Pop-Location
       
 # Fetch the inputs.
 
-$channel     = Get-ActionInput "channel"      -required
-$operation   = Get-ActionInput "operation"    -required
-$startTime   = Get-ActionInput "start-time"   -required
-$finishTime  = Get-ActionInput "finish-time"  -required
-$elapsedTime = Get-ActionInput "elapsed-time" -required
-$status      = Get-ActionInput "status"       -required
+$channel     = Get-ActionInput "channel"      $true
+$operation   = Get-ActionInput "operation"    $true
+$startTime   = Get-ActionInput "start-time"   $true
+$finishTime  = Get-ActionInput "finish-time"  $true
+$elapsedTime = Get-ActionInput "elapsed-time" $true
+$status      = Get-ActionInput "status"       $true
 
 # Determine the devbot image link based on the status.
 
