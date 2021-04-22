@@ -57,7 +57,7 @@ $buildOutcome = Get-ActionInput "build-outcome" $true
 
 $startTime   = [System.DateTime]::Parse($startTime)
 $finishTime  = [System.DateTime]::Parse($finishTime)
-$elapsedTime = ($finshTime - $startTime).ToString("c")
+$elapsedTime = $(New-TimeSpan $startTime $finishTime).ToString("c")
 
 "start   = $startTime"
 "finish  = $finishTime"
@@ -111,7 +111,7 @@ $card =
 
 $card = $card.Replace("@operation", $operation)
 $card = $card.Replace("@runner", $env:COMPUTERNAME)
-$card = $card.Replace("@build-outcome", $status.ToUpper())
+$card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
 $card = $card.Replace("@status-link", $statusLink)
 $card = $card.Replace("@start-time", $startTime.ToString("u"))
 $card = $card.Replace("@finish-time", $finishTime.ToString("u"))
