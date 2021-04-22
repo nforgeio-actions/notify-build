@@ -44,8 +44,8 @@ jobs:
       with:
         operation: neonFORGE Build
         channel: ${{ steps.environment.outputs.TEAM_DEVOPS_CHANNEL }}
-        start-time: ${{ steps.start-timestamp.outputs.timestamp }}
-        finish-time: ${{ steps.end-timestamp.outputs.timestamp }}
+        start-time: ${{ steps.start-timestamp.outputs.value }}
+        finish-time: ${{ steps.end-timestamp.outputs.value }}
         build-outcome: ${{ steps.build.outcome }}
     - id: email-notification
       uses: nforgeio-actions/send-mail@master
