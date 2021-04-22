@@ -25,6 +25,7 @@
 # We're sending actionable cards using the Adaaptive Card message format:
 #
 #   https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/what-are-cards
+#   https://docs.microsoft.com/en-us/adaptive-cards/
 
 name: teams-notify-build
 description: "Sends a build related message to a Microsoft Teams channel URI"
