@@ -34,9 +34,9 @@ jobs:
     - id: end-timestamp
       uses: nforgeio-actions/timestamp@master
 
-    # Here's the notification step.  Note how we're ontaining the start/end
+    # Here's the notification step.  Note how we're obtaining the start/end
     # timestamps from [timestamp] actions surrounding the build step and also
-    # that we're passing the build step's outcome here too.
+    # that we're passing the build step's outcome as well.
 
     - id: teams-notification
       uses: nforgeio-actions/teams-notify-build@master
