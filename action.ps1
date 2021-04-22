@@ -8,16 +8,15 @@
 # formal written and signed agreement with neonFORGE, LLC.
 
 #------------------------------------------------------------------------------
-# Sends an automated build notification to a Teams channel.
+# Sends a build related notification to a Teams channel.
 #
 # INPUTS:
 #
 #   channel         - Target Teams channel webhook URI
 #   operation       - Identifies what's being built
-#   start-time      - Time when the operation started
-#   finish-time     - Time when the operation completed or failed
-#   elapsed-time    - Elapsed operation run time
-#   status          - Operation status, one of: 'ok', 'warning', or 'failed'
+#   start-time      - Time when the build started (formatted like YYYY-MM-DD HH-MM:SSZ)
+#   finish-time     - Time when the build completed (formatted like YYYY-MM-DD HH-MM:SSZ)
+#   build-outcome   - Build step outcome, one of: 'success', 'failure', 'cancelled', or 'skipped'
     
 # Verify that we're running on a properly configured neonFORGE jobrunner 
 # and import the deployment and action scripts from neonCLOUD.
@@ -45,43 +44,25 @@ Pop-Location
       
 # Fetch the inputs.
 
-$channel     = Get-ActionInput "channel"      $true
-$operation   = Get-ActionInput "operation"    $true
-$startTime   = Get-ActionInput "start-time"   $true
-$finishTime  = Get-ActionInput "finish-time"  $true
-$elapsedTime = Get-ActionInput "elapsed-time" $true
-$status      = Get-ActionInput "status"       $true
+$channel      = Get-ActionInput "channel"       $true
+$operation    = Get-ActionInput "operation"     $true
+$startTime    = Get-ActionInput "start-time"    $true
+$finishTime   = Get-ActionInput "finish-time"   $true
+$buildOutcome = Get-ActionInput "build-outcome" $true
 
-# Determine the devbot image link based on the status.
+# Parse the start/finish times and compute the elapsed time.
 
-Switch ($status)
-{
-    "ok"
-    {
-        $statusLink = "https://github.com/nforgeio-actions/images/blob/master/teams/ok.png"
-    }
-    
-    "warning"
-    {
-        $statusLink = "https://github.com/nforgeio-actions/images/blob/master/teams/warning.png"
-    }
-    
-    "error"
-    {
-        $statusLink = "https://github.com/nforgeio-actions/images/blob/master/teams/error.png"
-    }
-    
-    default
-    {
-        throw "[$status] is not a valid status code."
-    }
-}
+$startTime   = [System.DateTime]::Parse($startTime)
+$finishTime  = [System.DateTime]::Parse($finishTime)
+$elapsedTime = ($finshTime - $startTime).ToString("c")
+
+# Determine the workflow run URI.
 
 $workflowRunUri = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"
 
-# We're going to use search/replace to modify a template message.
+# We're going to use search/replace to modify a template card.
 
-$message = 
+$card = 
 @'
 {
     "@type": "MessageCard",
@@ -92,7 +73,7 @@ $message =
         {
             "activityTitle": "@operation",
             "activitySubtitle": "@runner",
-            "activityText": "@status",
+            "activityText": "@build-outcome",
             "activityImage": "@status-link"
         },
         {
@@ -120,16 +101,14 @@ $message =
 }    
 '@
 
-$message  = $message.Replace("@operation", $operation)
-$message  = $message.Replace("@runner", $env:COMPUTERNAME)
-$message  = $message.Replace("@status", $status.ToUpper())
-$message  = $message.Replace("@status-link", $statusLink)
-$message  = $message.Replace("@start-time", $startTime)
-$message  = $message.Replace("@finish-time", $finishTime)
-$message  = $message.Replace("@elapsed-time", $elapsedTime)
+$card = $card.Replace("@operation", $operation)
+$card = $card.Replace("@runner", $env:COMPUTERNAME)
+$card = $card.Replace("@build-outcome", $status.ToUpper())
+$card = $card.Replace("@status-link", $statusLink)
+$card = $card.Replace("@start-time", $startTime.ToString("u"))
+$card = $card.Replace("@finish-time", $finishTime.ToString("u"))
+$card = $card.Replace("@elapsed-time", $elapsedTime.ToString("c"))
 
-# Post the message to Microsoft Teams.
+# Post the card to Microsoft Teams.
 
-Invoke-WebRequest -Method "POST" -Uri $channel -ContentType "application/json" -Body $message 
-
-
+Invoke-WebRequest -Method "POST" -Uri $channel -ContentType "application/json" -Body $card 

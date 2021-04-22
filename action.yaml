@@ -8,7 +8,7 @@
 # formal written and signed agreement with neonFORGE, LLC
 
 #------------------------------------------------------------------------------
-# Sends a message to a Microsoft Teams channel URI.
+# Sends a build related notification message to a Microsoft Teams channel URI.
 #
 # Each sending user sending messages will need a Teams channel URI for each channel
 # being targeted.  This URI identifies the user by name and optionally a profile image
@@ -32,26 +32,23 @@
 #
 #   https://poszytek.eu/en/microsoft-en/microsoft-message-cards-the-ultimate-guide/
 
-name: send-team-message
-description: "Sends a message to a Microsoft Teams channel URI"
+name: teams-notify-build
+description: "Sends a build related message to a Microsoft Teams channel URI"
 inputs:
+  operation:
+    description: "Identifies the build being performed (this must be formatted like: YYYY-MM-DD HH-MM:SSZ)"
+    required: true
   channel:
     description: "Specifies the target Teams channel URI"
     required: true
-  operation:
-    description: "Identifies the operation performed"
-    required: true
   start-time:
-    description: "Indicates when the operation started"
+    description: "Indicates when the build started (this must be formatted like: YYYY-MM-DD HH-MM:SSZ)"
     required: true
   finish-time:
-    description: "Indicates when the operation completed or failed"
+    description: "Indicates when the build completed or failed"
     required: true
-  elapsed-time:
-    description: "Indicates how long the operation took"
-    required: true
-  status:
-    description: "Operations status, one of: 'ok', 'warning', or 'failed'"
+  build-outcome:
+    description: "The build step outcome from [steps.BUILDSTEP.outcome], one of: 'success', 'failure', 'cancelled', or 'skipped'"
     required: true
 runs:
   using: node12
