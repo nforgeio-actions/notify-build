@@ -57,7 +57,7 @@ $buildOutcome = Get-ActionInput "build-outcome" $true
 
 $startTime   = [System.DateTime]::Parse($startTime)
 $finishTime  = [System.DateTime]::Parse($finishTime)
-$elapsedTime = $(New-TimeSpan $startTime $finishTime).ToString("c")
+$elapsedTime = $(New-TimeSpan $startTime $finishTime)
 
 "start   = $startTime"
 "finish  = $finishTime"
