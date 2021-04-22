@@ -29,7 +29,7 @@
 
 $ncRoot = $env:NC_ROOT
 
-if ([System.String]:IsNullOrEmpty($ncRoot) -or ![System.IO.Directory]::Exists($ncRoot))
+if ([System.String]::IsNullOrEmpty($ncRoot) -or ![System.IO.Directory]::Exists($ncRoot))
 {
   throw "Runner Config: neonCLOUD repo is not present."
 }
