@@ -109,4 +109,4 @@ $card = $card.Replace("@elapsed-time", $elapsedTime.ToString("c"))
 
 # Post the card to Microsoft Teams.
 
-Invoke-WebRequest -Method "POST" -Uri $channel -ContentType "application/json" -Body $card 
+Invoke-WebRequest -Method "POST" -Uri $channel -ContentType "application/json" -Body $card | Out-Null
