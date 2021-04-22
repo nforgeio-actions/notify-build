@@ -36,10 +36,10 @@ if (![System.IO.Directory]::Exists($ncRoot))
 
 $ncPowershell = [System.IO.Path]::Combine($ncRoot, "Powershell")
 
-Write-Output $"ncPowershell = $ncPowershell"
-
 Push-Location $ncPowershell
+Write-Output "*********************************************************"
 . ./includes.ps1
+Write-Output "*********************************************************"
 Pop-Location
       
 # Fetch the inputs.
