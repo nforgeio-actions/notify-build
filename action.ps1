@@ -37,9 +37,7 @@ if (![System.IO.Directory]::Exists($ncRoot))
 $ncPowershell = [System.IO.Path]::Combine($ncRoot, "Powershell")
 
 Push-Location $ncPowershell
-Write-Output "*********************************************************"
 . ./includes.ps1
-Write-Output "*********************************************************"
 Pop-Location
       
 # Fetch the inputs.
@@ -50,11 +48,21 @@ $startTime    = Get-ActionInput "start-time"    $true
 $finishTime   = Get-ActionInput "finish-time"   $true
 $buildOutcome = Get-ActionInput "build-outcome" $true
 
+"****************************"
+"start   = $startTime"
+"finish  = $finishTime"
+"****************************"
+
 # Parse the start/finish times and compute the elapsed time.
 
 $startTime   = [System.DateTime]::Parse($startTime)
 $finishTime  = [System.DateTime]::Parse($finishTime)
 $elapsedTime = ($finshTime - $startTime).ToString("c")
+
+"start   = $startTime"
+"finish  = $finishTime"
+"elapsed = $elapsedTime"
+"****************************"
 
 # Determine the workflow run URI.
 
