@@ -54,32 +54,5 @@ inputs:
     description: "Operations status, one of: 'ok', 'warning', or 'failed'"
     required: true
 runs:
-  using: composite
-  steps:
-  - shell: pwsh
-    run: |
-      # $hack(jefflill):
-      #
-      # I just figured out that input values are not made available as
-      # "INPUT_name" environment variables for composite actions like 
-      # this one.  The GitHub documentation doesn't mention this and 
-      # this has been driving me nuts for hours.  It looks like GitHub
-      # actions are really designed for javascript or Docker and not
-      # really for scripting languages like Powershell and Bash, although
-      # they talk about them a lot.
-      #
-      # The weird thing is that the inputs are actually available here
-      # via string interpolation, GitHub just doesn't set the environment
-      # variables.  We're going hack that up ourselves.
-      
-      [System.Environment]::SetEnvironmentVariable("INPUT_channel", "${{ inputs.channel }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_operation", "${{ inputs.operation }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_start-time", "${{ inputs.start-time }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_finish-time", "${{ inputs.finish-time }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_elapsed-time", "${{ inputs.elapsed-time }}")
-      [System.Environment]::SetEnvironmentVariable("INPUT_status", "${{ inputs.status }}")
-      
-      # Call the script
-      
-      ${{ github.action_path }}/script.ps1
-
+  using: node12
+  main: action.js

@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# FILE:         script.ps1
+# FILE:         action.ps1
 # CONTRIBUTOR:  Jeff Lill
 # COPYRIGHT:    Copyright (c) 2005-2021 by neonFORGE LLC.  All rights reserved.
 #
@@ -8,7 +8,7 @@
 # formal written and signed agreement with neonFORGE, LLC.
 
 #------------------------------------------------------------------------------
-# Sends an automated operation related message to a Teams channel.
+# Sends an automated build notification to a Teams channel.
 #
 # INPUTS:
 #
