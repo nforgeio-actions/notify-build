@@ -47,6 +47,9 @@ inputs:
   workflow-ref:
     description: "The URI to the executing workflow YAML file in the GitHub repo.  This MUST include [/blob/master] path segments which will be replaced with the current branch."
     required: true
+  send-on:
+    description: "Optionally specifies a comma separated list of build outcomes that will trigger the notification.  Notifications will always be sent by default."
+    required: false
 runs:
   using: node12
   main: action.js

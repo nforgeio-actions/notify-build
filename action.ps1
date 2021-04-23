@@ -17,6 +17,9 @@
 #   start-time      - Time when the build started (formatted like YYYY-MM-DD HH-MM:SSZ)
 #   finish-time     - Time when the build completed (formatted like YYYY-MM-DD HH-MM:SSZ)
 #   build-outcome   - Build step outcome, one of: 'success', 'failure', 'cancelled', or 'skipped'
+#   send-on         - Optionally specifies the comma separated list of [build-outcome] values
+#                     that will trigger the notification.  The default is to always send the
+#                     notification.
     
 # Verify that we're running on a properly configured neonFORGE jobrunner 
 # and import the deployment and action scripts from neonCLOUD.
@@ -48,6 +51,15 @@ $startTime    = Get-ActionInput "start-time"    $true
 $finishTime   = Get-ActionInput "finish-time"   $true
 $buildOutcome = Get-ActionInput "build-outcome" $true
 $workflowRef  = Get-ActionInput "workflow-ref"  $true
+$sendOn       = Get-ActionInput "send-on"       $false
+
+# Exit if the notification shouldn't be transmitted based on the build outcome.
+# We're going to do a simple string match here rather than parsing [send-on].
+
+if (($sendOn -ne $null) -and ($sendOn.Contains($buildOutcome)))
+{
+    return
+}
 
 # Parse the start/finish times and compute the elapsed time.
 
