@@ -56,25 +56,10 @@ $sendOn       = Get-ActionInput "send-on"       $false
 # Exit if the notification shouldn't be transmitted based on the build outcome.
 # We're going to do a simple string match here rather than parsing [send-on].
 
-Write-Output "******:0: outcome: $buildOutcome"
-Write-Output "******:0: send-on: $sendOn"
-
-$v0 = $($sendOn -ne $null)
-Write-Output "******:1: $v0"
-
-$v1 = $sendOn.Contains($buildOutcome)
-Write-Output "******:2: $v1"
-
-$v2 = $sendOn.Contains("always")
-Write-Output "******:3: $v2"
-
 if (!(($sendOn -ne $null) -and ($sendOn.Contains($buildOutcome)) -and (!sendOn.Contains("always"))))
 {
-Write-Output "******:4"
-
     return
 }
-Write-Output "******:5"
 
 # Parse the start/finish times and compute the elapsed time.
 
