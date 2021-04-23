@@ -264,11 +264,13 @@ else
         {
             "activityImage": "@buildOutcomeColorUri"
             "activityTitle": "@operation",
-            "activitySubtitle": "**@build-outcome**",
         },
         {
-            "title": "",
             "facts": [
+                {
+                    "name": "Outcome:",
+                    "value": "**@build-outcome**"
+                },
                 {
                     "name": "Runner:",
                     "value": "@runner"
@@ -287,12 +289,12 @@ else
     "potentialAction": [
       {
           "@type": "OpenUri",
-          "name": "Shot Workflow Run",
+          "name": "Show Workflow Run",
           "target": "@workflow-run-uri",
       },
       {
           "@type": "OpenUri",
-          "name": "Shot Workflow",
+          "name": "Show Workflow",
           "target": "@workflow-uri",
       }
     ]
