@@ -297,12 +297,12 @@ else
                     "value": "**@build-outcome**"
                 },
                 {
-                    "name": "Runner:",
-                    "value": "@runner"
-                },
-                {
                     "name": "Branch:",
                     "value": "@branch"
+                },
+                {
+                    "name": "Runner:",
+                    "value": "@runner"
                 },
                 {
                     "name": "Finished:",
