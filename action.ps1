@@ -74,6 +74,26 @@ $lastSlashPos = $githubRef.LastIndexOf("/")
 $branch       = $githubRef.Substring($lastSlashPos + 1)
 $workflowUri  = $workflowRef.Replace("/blob/master/", "/blob/$branch/")
 
+# Determine the reason why the workflow was started based on the GITHUB_EVENT and
+# GITHUB_ACTOR environment variables.
+
+$event = $env:GITHUB_EVENT
+$actor = $env:GITHIB_ACTOR
+
+if (![System.String]::IsNullOrEmpty($actor))
+{
+    $actor = $actor.ToUpper()
+}
+
+if ($event -eq "workflow_dispatch")
+{
+    $reason = "Started by: $actor"
+}
+else
+{
+    $reason = $event.ToUpper()
+}
+
 # Set the accents based on the build outcome.
 
 $buildOutcomeColor    = "default"
@@ -262,7 +282,8 @@ else
     "summary": "neon automation",
     "sections": [
         {
-            "activityTitle": "@operation"
+            "activityTitle": "@operation",
+            "activitySubtitle": "@reason",
         },
         {
             "facts": [
@@ -312,6 +333,7 @@ else
 }
 
 $card = $card.Replace("@operation", $operation)
+$card = $card.Replace("@reason", $reason)
 $card = $card.Replace("@runner", $env:COMPUTERNAME)
 $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
 $card = $card.Replace("@build-outcome-color", $buildOutcomeColor)
