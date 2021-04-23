@@ -305,6 +305,10 @@ else
                     "value": "@finish-time"
                 },
                 {
+                    "name": "Branch:",
+                    "value": "@branch"
+                },
+                {
                     "name": "Elapsed:",
                     "value": "@elapsed-time"
                 }
