@@ -22,15 +22,9 @@
 
 # IMPLEMENTATION NOTES:
 # ---------------------
-# We're sending actionable cards using the Legacy Actionable Message format because the 
-# new Adaptive Card format is not currently supported by Microsoft Teams:
+# We're sending actionable cards using the Adaaptive Card message format:
 #
-#   https://docs.microsoft.com/en-us/outlook/actionable-messages/message-card-reference
-#   https://messagecardplayground.azurewebsites.net/
-#
-# This is another overview for how card messages work:
-#
-#   https://poszytek.eu/en/microsoft-en/microsoft-message-cards-the-ultimate-guide/
+#   https://adaptivecards.io/
 
 name: teams-notify-build
 description: "Sends a build related message to a Microsoft Teams channel URI"
