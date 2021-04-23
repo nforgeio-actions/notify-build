@@ -292,7 +292,7 @@ else
           "targets": [
             {
                 "os": "default",
-                "uri": ""@workflow-run-uri"
+                "uri": "@workflow-run-uri"
             }
           ]
       },
@@ -302,7 +302,7 @@ else
           "targets": [
             {
                 "os": "default",
-                "uri": ""@workflow-uri"
+                "uri": "@workflow-uri"
             }
       }
     ]
