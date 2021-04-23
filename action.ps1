@@ -301,12 +301,12 @@ else
                     "value": "@runner"
                 },
                 {
-                    "name": "Finished:",
-                    "value": "@finish-time"
-                },
-                {
                     "name": "Branch:",
                     "value": "@branch"
+                },
+                {
+                    "name": "Finished:",
+                    "value": "@finish-time"
                 },
                 {
                     "name": "Elapsed:",
