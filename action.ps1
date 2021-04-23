@@ -78,7 +78,7 @@ $workflowUri  = $workflowRef.Replace("/blob/master/", "/blob/$branch/")
 # and GITHUB_ACTOR environment variables.
 
 $event = $env:GITHUB_EVENT_NAME
-$actor = $env:GITHIB_ACTOR
+$actor = $env:GITHUB_ACTOR
 
 if (![System.String]::IsNullOrEmpty($actor))
 {
