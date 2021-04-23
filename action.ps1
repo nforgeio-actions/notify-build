@@ -215,7 +215,7 @@ if ($false)
                     {
                       "type": "Action.OpenUrl",
                       "title": "Show Workflow Run",
-                      "url": "@workflowRunUri",
+                      "url": "@workflow-run-uri",
                       "style": "positive"
                     }
                   ]
@@ -232,7 +232,7 @@ if ($false)
                     {
                       "type": "Action.OpenUrl",
                       "title": "Show Workflow",
-                      "url": "@workflowUri",
+                      "url": "@workflow-uri",
                       "style": "positive"
                     }
                   ]
@@ -258,7 +258,7 @@ else
 {
     "@type": "MessageCard",
     "@context": "https://schema.org/extensions",
-    "themeColor": "@themeColor",
+    "themeColor": "@theme-color",
     "summary": "neon automation",
     "sections": [
         {
@@ -287,12 +287,12 @@ else
       {
           "@type": "OpenUri",
           "name": "Shot Workflow Run",
-          "target": "@workflowRunUri",
+          "target": "@workflow-run-uri",
       },
       {
           "@type": "OpenUri",
           "name": "Shot Workflow",
-          "target": "@workflowUri",
+          "target": "@workflow-uri",
       }
     ]
 }    
@@ -303,12 +303,12 @@ $card = $card.Replace("@operation", $operation)
 $card = $card.Replace("@runner", $env:COMPUTERNAME)
 $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
 $card = $card.Replace("@build-outcome-color", $buildOutcomeColor)
-$card = $card.Replace("@workflowRunUri", $workflowRunUri)
-$card = $card.Replace("@workflowUri", $workflowUri)
+$card = $card.Replace("@workflow-run-uri", $workflowRunUri)
+$card = $card.Replace("@workflowi-uri", $workflowUri)
 $card = $card.Replace("@start-time", $startTime.ToString("u"))
 $card = $card.Replace("@finish-time", $finishTime.ToString("u"))
 $card = $card.Replace("@elapsed-time", $elapsedTime.ToString("c"))
-$card = $card.Replace("@themecolor", $themeColor)
+$card = $card.Replace("@theme-color", $themeColor)
 
 # Post the card to Microsoft Teams.
 
