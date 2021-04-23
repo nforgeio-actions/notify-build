@@ -68,7 +68,7 @@ Write-Output "******:2: $v1"
 $v2 = $sendOn.Contains("always")
 Write-Output "******:3: $v2"
 
-if (($sendOn -ne $null) -and ($sendOn.Contains($buildOutcome)) -and (!sendOn.Contains("always")))
+if (!(($sendOn -ne $null) -and ($sendOn.Contains($buildOutcome)) -and (!sendOn.Contains("always"))))
 {
 Write-Output "******:4"
 
