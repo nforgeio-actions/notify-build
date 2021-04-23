@@ -304,6 +304,7 @@ else
                 "os": "default",
                 "uri": "@workflow-uri"
             }
+          ]
       }
     ]
 }    
