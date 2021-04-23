@@ -344,6 +344,7 @@ else
 $card = $card.Replace("@operation", $operation)
 $card = $card.Replace("@reason", $reason)
 $card = $card.Replace("@runner", $env:COMPUTERNAME)
+$card = $card.Replace("@branch", $branch)
 $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
 $card = $card.Replace("@build-outcome-color", $buildOutcomeColor)
 $card = $card.Replace("@workflow-run-uri", $workflowRunUri)
