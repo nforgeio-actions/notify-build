@@ -296,7 +296,7 @@ $card = $card.Replace("@workflowUri", $workflowUri)
 $card = $card.Replace("@start-time", $startTime.ToString("u"))
 $card = $card.Replace("@finish-time", $finishTime.ToString("u"))
 $card = $card.Replace("@elapsed-time", $elapsedTime.ToString("c"))
-$card = $card.Replace("@themecolor", $themeColor))
+$card = $card.Replace("@themecolor", $themeColor)
 
 # Post the card to Microsoft Teams.
 
