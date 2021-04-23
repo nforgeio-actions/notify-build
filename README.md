@@ -77,5 +77,5 @@ jobs:
         channel: ${{ steps.environment.outputs.TEAM_DEVOPS_CHANNEL }}
         build-outcome: ${{ steps.build.outcome }}
         workflow-ref: https://github.com/nforgeio/neonCLOUD/blob/master/.github/workflows/action-test.yaml
-        send-on: "failure, cancelled, skipped""
+        send-on: "failure, cancelled, skipped"
 ```
