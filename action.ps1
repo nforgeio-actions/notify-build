@@ -263,7 +263,7 @@ else
     "sections": [
         {
             "activityImage": "@buildOutcomeColorUri"
-            "activityTitle": "@operation",
+            "activityTitle": "@operation"
         },
         {
             "facts": [
