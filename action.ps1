@@ -289,12 +289,21 @@ else
       {
           "@type": "OpenUri",
           "name": "Show Workflow Run",
-          "target": "@workflow-run-uri",
+          "targets": [
+            {
+                "os": "default",
+                "uri": ""@workflow-run-uri"
+            }
+          ]
       },
       {
           "@type": "OpenUri",
           "name": "Show Workflow",
-          "target": "@workflow-uri",
+          "targets": [
+            {
+                "os": "default",
+                "uri": ""@workflow-uri"
+            }
       }
     ]
 }    
