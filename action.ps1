@@ -56,6 +56,15 @@ $sendOn       = Get-ActionInput "send-on"       $false
 # Exit if the notification shouldn't be transmitted based on the build outcome.
 # We're going to do a simple string match here rather than parsing [send-on].
 
+Write-Output "******:0: send-on: $sendOn"
+Write-Output "******:1: ($sendOn -ne $null)"
+
+$v1 = $sendOn.Contains($buildOutcome)
+Write-Output "******:2: $v1"
+
+$v2 = $sendOn.Contains("always")
+Write-Output "******:3: $v2""
+
 if (($sendOn -ne $null) -and ($sendOn.Contains($buildOutcome)) -and (!sendOn.Contains("always")))
 {
     return
