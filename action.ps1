@@ -56,8 +56,11 @@ $sendOn       = Get-ActionInput "send-on"       $false
 # Exit if the notification shouldn't be transmitted based on the build outcome.
 # We're going to do a simple string match here rather than parsing [send-on].
 
+Write-Output "******:0: outcome: $buildOutcome"
 Write-Output "******:0: send-on: $sendOn"
-Write-Output "******:1: ($sendOn -ne $null)"
+
+$v0 = $($sendOn -ne $null)
+Write-Output "******:1: $v0"
 
 $v1 = $sendOn.Contains($buildOutcome)
 Write-Output "******:2: $v1"
@@ -373,7 +376,6 @@ $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
 $card = $card.Replace("@build-outcome-color", $buildOutcomeColor)
 $card = $card.Replace("@workflow-run-uri", $workflowRunUri)
 $card = $card.Replace("@workflow-uri", $workflowUri)
-$card = $card.Replace("@start-time", $startTime.ToString("u"))
 $card = $card.Replace("@finish-time", $finishTime.ToString("u"))
 $card = $card.Replace("@elapsed-time", $elapsedTime.ToString("c"))
 $card = $card.Replace("@theme-color", $themeColor)
