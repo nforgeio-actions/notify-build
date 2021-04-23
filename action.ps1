@@ -63,12 +63,15 @@ $v1 = $sendOn.Contains($buildOutcome)
 Write-Output "******:2: $v1"
 
 $v2 = $sendOn.Contains("always")
-Write-Output "******:3: $v2""
+Write-Output "******:3: $v2"
 
 if (($sendOn -ne $null) -and ($sendOn.Contains($buildOutcome)) -and (!sendOn.Contains("always")))
 {
+Write-Output "******:4"
+
     return
 }
+Write-Output "******:5"
 
 # Parse the start/finish times and compute the elapsed time.
 
