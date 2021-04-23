@@ -47,10 +47,4 @@ jobs:
         start-time: ${{ steps.start-timestamp.outputs.value }}
         finish-time: ${{ steps.end-timestamp.outputs.value }}
         build-outcome: ${{ steps.build.outcome }}
-    - id: email-notification
-      uses: nforgeio-actions/send-mail@master
-      with:
-        to: jeff@lill.io
-        subject: "Test message from DEVBOT"
-        body: HELLO WORLD!
-```
+        workflow-ref: https://github.com/nforgeio/neonCLOUD/blob/master/.github/workflows/action-test.yaml

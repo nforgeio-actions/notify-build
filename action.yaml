@@ -50,6 +50,9 @@ inputs:
   build-outcome:
     description: "The build step outcome from [steps.BUILDSTEP.outcome], one of: 'success', 'failure', 'cancelled', or 'skipped'"
     required: true
+  workflow-ref:
+    description: "The URI to the executing workflow YAML file in the GitHub repo.  This MUST include [/blob/master] path segments which will be replaced with the current branch."
+    required: true
 runs:
   using: node12
   main: action.js

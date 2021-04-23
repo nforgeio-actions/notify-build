@@ -47,6 +47,7 @@ $operation    = Get-ActionInput "operation"     $true
 $startTime    = Get-ActionInput "start-time"    $true
 $finishTime   = Get-ActionInput "finish-time"   $true
 $buildOutcome = Get-ActionInput "build-outcome" $true
+$workflowRef  = Get-ActionInput "workflow-ref"  $true
 
 # Parse the start/finish times and compute the elapsed time.
 
@@ -58,51 +59,185 @@ $elapsedTime = $(New-TimeSpan $startTime $finishTime)
 
 $workflowRunUri = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"
 
-# We're going to use search/replace to modify a template card.
+# Convert [$workflowRef] into the URI to referencing the correct branch.  We're
+# going to use the GITHUB_REF environment variable.  This includes the branch like:
+#
+#       refs/heads/master
+
+if (!$workflowRef.Contains("/blob/master/"))
+{
+    throw "[workflow-ref=$workflowRef] is missing '/blob/master/'."
+}
+
+$githubRef    = $env:GITHUB_REF
+$lastSlashPos = $githubRef.LastIndexOf("/")
+$branch       = $githubRef.Substring($lastSlashPos + 1)
+$workflowUri  = $workflowRef.Replace("/blob/master/", "/blob/$branch/")
+
+# Set the accents based on the build outcome.
+
+$buildOutcomeColor    = "default"
+$buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/warning.png"
+
+Switch ($buildOutcome)
+{
+    "success"
+    {
+        $buildOutcomeColor    = "good"
+        $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/ok.png"
+    }
+
+    "cancelled"
+    {
+        $buildOutcomeColor    = "warning"
+        $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/warning.png"
+    }
+
+    "skipped"
+    {
+        $buildOutcomeColor    = "warning"
+        $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/warning.png"
+    }
+
+    "failure"
+    {
+        $buildOutcomeColor    = "attention"
+        $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/error.png"
+    }
+}
+
+# We're going to use search/replace to modify a template card.  Here's the
+# card documentation:
+#
+#   https://adaptivecards.io/explorer/
 
 $card = 
 @'
 {
-    "@type": "MessageCard",
-    "@context": "https://schema.org/extensions",
-    "themeColor": "3d006d",
-    "summary": "neon automation",
-    "sections": [
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.3",
+  "body": [
+    {
+      "type": "Container",
+      "backgroundImage": "@buildOutcomeColorUri",
+      "items": [
         {
-            "activityTitle": "@operation",
-            "activitySubtitle": "@runner",
-            "activityText": "@build-outcome",
-            "activityImage": "@status-link"
+          "type": "TextBlock",
+          "text": "@operation",
+          "weight": "bolder",
+          "size": "medium"
         },
         {
-            "title": "",
-            "facts": [
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
                 {
-                    "name": "started:",
-                    "value": "@start-time"
-                },
-                {
-                    "name": "finished:",
-                    "value": "@finish-time"
-                },
-                {
-                    "name": "elapsed:",
-                    "value": "@elapsed-time"
-                },
-                {
-                    "name": "link:",
-                    "value": "@channel"
+                  "type": "Image",
+                  "url": "https://github.com/nforgeio-actions/images/blob/master/teams/devbot.png",
+                  "size": "small",
+                  "style": "person"
                 }
-            ]
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "spacing": "none",
+                  "text": "devbot (neonFORGE)",
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "spacing": "none",
+                  "text": "@finish-time",
+                  "isSubtle": true,
+                  "wrap": true
+                }
+              ]
+            }
+          ]
         }
-    ]
-}    
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "Outcome:",
+              "value": "@build-outcome",
+              "color": "@build-outcome-color"
+            },
+            {
+              "title": "Runner:",
+              "value": "@runner"
+            },
+            {
+              "title": "Elapsed:",
+              "value": "@elapsed-time"
+            }
+          ]
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "ActionSet",
+                  "actions": [
+                    {
+                      "type": "Action.OpenUrl",
+                      "title": "Show Workflow Run",
+                      "url": "@workflowRunUri",
+                      "style": "positive"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "ActionSet",
+                  "actions": [
+                    {
+                      "type": "Action.OpenUrl",
+                      "title": "Show Workflow",
+                      "url": "@workflowUri",
+                      "style": "positive"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
 '@
 
 $card = $card.Replace("@operation", $operation)
 $card = $card.Replace("@runner", $env:COMPUTERNAME)
 $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
-$card = $card.Replace("@status-link", $statusLink)
+$card = $card.Replace("@build-outcome-color", $buildOutcomeColor)
+$card = $card.Replace("@workflowRunUri", $workflowRunUri)
+$card = $card.Replace("@workflowUri", $workflowUri)
 $card = $card.Replace("@start-time", $startTime.ToString("u"))
 $card = $card.Replace("@finish-time", $finishTime.ToString("u"))
 $card = $card.Replace("@elapsed-time", $elapsedTime.ToString("c"))
