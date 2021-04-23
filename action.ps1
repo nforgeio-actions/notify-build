@@ -47,8 +47,8 @@ Pop-Location
 
 $channel      = Get-ActionInput "channel"       $true
 $operation    = Get-ActionInput "operation"     $true
-$startTime    = Get-ActionInput "start-time"    $true
-$finishTime   = Get-ActionInput "finish-time"   $true
+$startTime    = Get-ActionInput "start-time"    $false
+$finishTime   = Get-ActionInput "finish-time"   $false
 $buildOutcome = Get-ActionInput "build-outcome" $true
 $workflowRef  = Get-ActionInput "workflow-ref"  $true
 $sendOn       = Get-ActionInput "send-on"       $false
