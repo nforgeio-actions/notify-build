@@ -87,7 +87,7 @@ if (![System.String]::IsNullOrEmpty($actor))
 
 if ($event -eq "workflow_dispatch")
 {
-    $reason = "Started by: $actor"
+    $reason = "Started by: **$actor**"
 }
 else
 {
