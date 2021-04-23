@@ -262,7 +262,7 @@ else
     "summary": "neon automation",
     "sections": [
         {
-            "activityImage": "@buildOutcomeColorUri"
+            "activityImage": "@buildOutcomeColorUri",
             "activityTitle": "@operation"
         },
         {
