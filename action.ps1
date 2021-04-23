@@ -262,6 +262,7 @@ else
     "summary": "neon automation",
     "sections": [
         {
+            "activityImage": "@buildOutcomeColorUri"
             "activityTitle": "@operation",
             "activitySubtitle": "**@build-outcome**",
         },
@@ -277,13 +278,13 @@ else
                     "value": "@finish-time"
                 },
                 {
-                    "name": "elapsed:",
+                    "name": "Elapsed:",
                     "value": "@elapsed-time"
                 }
             ]
         }
     ],
-    "potentialActions": [
+    "potentialAction": [
       {
           "@type": "OpenUri",
           "name": "Shot Workflow Run",
