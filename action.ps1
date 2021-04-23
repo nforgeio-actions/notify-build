@@ -78,6 +78,7 @@ $workflowUri  = $workflowRef.Replace("/blob/master/", "/blob/$branch/")
 
 $buildOutcomeColor    = "default"
 $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/warning.png"
+$themeColor           = "ff0000" # green
 
 Switch ($buildOutcome)
 {
@@ -85,33 +86,47 @@ Switch ($buildOutcome)
     {
         $buildOutcomeColor    = "good"
         $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/ok.png"
+        $themeColor           = "00ff00" # green
     }
 
     "cancelled"
     {
         $buildOutcomeColor    = "warning"
         $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/warning.png"
+        $themeColor           = "ffa500" # orange
     }
 
     "skipped"
     {
         $buildOutcomeColor    = "warning"
         $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/warning.png"
+        $themeColor           = "ffa500" # orange
     }
 
     "failure"
     {
         $buildOutcomeColor    = "attention"
         $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/error.png"
+        $themeColor           = "ff0000" # red
     }
 }
 
-# We're going to use search/replace to modify a template card.  Here's the
-# card documentation:
+# The Teams connector doesn't support adaptive cards yet although they claim
+# this feature is in testing for the better part of a year (by Alex Bauer no less):
 #
-#   https://adaptivecards.io/explorer/
+#       https://microsoftteams.uservoice.com/forums/555103-public/suggestions/35793883-adaptive-cards-webhooks?page=1&per_page=20
+#
+# I wasted a couple hours laying out the adaptive card below.  I'll retain the
+# code though, in case MSFT gets on the ball and releases this.
 
-$card = 
+if ($false)
+{
+    # We're going to use search/replace to modify a template card.  Here's the
+    # card documentation:
+    #
+    #   https://adaptivecards.io/explorer/
+
+    $card = 
 @'
 {
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -231,6 +246,46 @@ $card =
   ]
 }
 '@
+}
+else
+{
+    # This is the old MessageCard format:
+
+    $card = 
+@'
+{
+    "@type": "MessageCard",
+    "@context": "https://schema.org/extensions",
+    "themeColor": "@themeColor",
+    "summary": "neon automation",
+    "sections": [
+        {
+            "activityTitle": "@operation",
+            "activitySubtitle": "@runner",
+            "activityText": "@build-outcome"
+        },
+        {
+            "title": "",
+            "facts": [
+                {
+                    "name": "Runner:",
+                    "value": "@runner"
+                },
+                {
+                    "name": "Finished:",
+                    "value": "@finish-time"
+                },
+                {
+                    "name": "elapsed:",
+                    "value": "@elapsed-time"
+                }
+            ]
+        }
+    ]
+}    
+'@
+
+}
 
 $card = $card.Replace("@operation", $operation)
 $card = $card.Replace("@runner", $env:COMPUTERNAME)
@@ -241,6 +296,7 @@ $card = $card.Replace("@workflowUri", $workflowUri)
 $card = $card.Replace("@start-time", $startTime.ToString("u"))
 $card = $card.Replace("@finish-time", $finishTime.ToString("u"))
 $card = $card.Replace("@elapsed-time", $elapsedTime.ToString("c"))
+$card = $card.Replace("@themecolor", $themeColor))
 
 # Post the card to Microsoft Teams.
 
