@@ -250,6 +250,8 @@ if ($false)
 else
 {
     # This is the old MessageCard format:
+    #
+    #   https://docs.microsoft.com/en-us/outlook/actionable-messages/message-card-reference
 
     $card = 
 @'
@@ -261,8 +263,7 @@ else
     "sections": [
         {
             "activityTitle": "@operation",
-            "activitySubtitle": "@runner",
-            "activityText": "@build-outcome"
+            "activitySubtitle": "**@build-outcome**",
         },
         {
             "title": "",
@@ -281,10 +282,21 @@ else
                 }
             ]
         }
+    ],
+    "potentialActions": [
+      {
+          "@type": "OpenUri",
+          "name": "Shot Workflow Run",
+          "target": "@workflowRunUri",
+      },
+      {
+          "@type": "OpenUri",
+          "name": "Shot Workflow",
+          "target": "@workflowUri",
+      }
     ]
 }    
 '@
-
 }
 
 $card = $card.Replace("@operation", $operation)
