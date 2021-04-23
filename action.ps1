@@ -61,11 +61,21 @@ if (!(($sendOn -ne $null) -and ($sendOn.Contains($buildOutcome)) -and (!sendOn.C
     return
 }
 
-# Parse the start/finish times and compute the elapsed time.
+# Parse the optional start/finish times and compute the elapsed time.  Note that
+# we're going to display "-na" when either of these timestamps were not passed.
 
-$startTime   = [System.DateTime]::Parse($startTime)
-$finishTime  = [System.DateTime]::Parse($finishTime)
-$elapsedTime = $(New-TimeSpan $startTime $finishTime)
+if (($startTime -eq $null) -or ($endTime -eq $null))
+{
+    $startTime   = "-na-"
+    $finishTime  = "-na-"
+    $elapsedTime = "-na-"
+}
+else
+{
+    $startTime   = [System.DateTime]::Parse($startTime).ToString("u")
+    $finishTime  = [System.DateTime]::Parse($finishTime).ToString("u")
+    $elapsedTime = $(New-TimeSpan $startTime $finishTime).ToString("c")
+}
 
 # Determine the workflow run URI.
 
@@ -361,8 +371,8 @@ $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
 $card = $card.Replace("@build-outcome-color", $buildOutcomeColor)
 $card = $card.Replace("@workflow-run-uri", $workflowRunUri)
 $card = $card.Replace("@workflow-uri", $workflowUri)
-$card = $card.Replace("@finish-time", $finishTime.ToString("u"))
-$card = $card.Replace("@elapsed-time", $elapsedTime.ToString("c"))
+$card = $card.Replace("@finish-time", $finishTime)
+$card = $card.Replace("@elapsed-time", $elapsedTime)
 $card = $card.Replace("@theme-color", $themeColor)
 
 # Post the card to Microsoft Teams.
