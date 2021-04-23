@@ -74,10 +74,10 @@ $lastSlashPos = $githubRef.LastIndexOf("/")
 $branch       = $githubRef.Substring($lastSlashPos + 1)
 $workflowUri  = $workflowRef.Replace("/blob/master/", "/blob/$branch/")
 
-# Determine the reason why the workflow was started based on the GITHUB_EVENT and
-# GITHUB_ACTOR environment variables.
+# Determine the reason why the workflow was started based on the GITHUB_EVENT_NAME
+# and GITHUB_ACTOR environment variables.
 
-$event = $env:GITHUB_EVENT
+$event = $env:GITHUB_EVENT_NAME
 $actor = $env:GITHIB_ACTOR
 
 if (![System.String]::IsNullOrEmpty($actor))
