@@ -85,13 +85,18 @@ if (![System.String]::IsNullOrEmpty($actor))
     $actor = $actor.ToUpper()
 }
 
+if (![System.String]::IsNullOrEmpty($event))
+{
+    $event = $event.ToUpper()
+}
+
 if ($event -eq "workflow_dispatch")
 {
     $reason = "Started by: **$actor**"
 }
 else
 {
-    $reason = $event.ToUpper()
+    $reason = "Event: **$event**"
 }
 
 # Set the accents based on the build outcome.
