@@ -70,12 +70,16 @@ if (!$sendAlways -and !$sendOn.Contains($buildOutcome))
 
 if ([System.String]::IsNullOrEmpty($buildBranch))
 {
-    $buildBranch = "-na"
+    $buildBranch = "-na-"
+}
+else
+{
+    $buildBranch = "**$buildBranch**"
 }
 
-if ([System.String]::IsNullOrEmpty($buildCommit) -or ([System.String]::IsNullOrEmpty($buildCommitUri))
+if ([System.String]::IsNullOrEmpty($buildCommit) -or [System.String]::IsNullOrEmpty($buildCommitUri))
 {
-    $buildCommitUri = "-na"
+    $buildCommitUri = "-na-"
 }
 else
 {
@@ -171,6 +175,10 @@ Switch ($buildOutcome)
     }
 }
 
+# Format $buildOutcome
+
+$buildOutcome = "**$buildOutcome**"
+
 # This is the legacy MessageCard format (Adaptive Cards are not supported by
 # the Team Connector at this time):
 #
@@ -192,19 +200,19 @@ $card =
             "facts": [
                 {
                     "name": "Outcome:",
-                    "value": "**@build-outcome**"
-                },
-                {
-                    "name": "Branch:",
-                    "value": "**@build-branch**"
-                },
-                {
-                    "name": "Commit:",
-                    "value": "@build-commit-uri"
+                    "value": "build-outcome"
                 },
                 {
                     "name": "Runner:",
                     "value": "@runner"
+                },
+                {
+                    "name": "Branch:",
+                    "value": "@build-branch"
+                },
+                {
+                    "name": "Commit:",
+                    "value": "@build-commit-uri"
                 },
                 {
                     "name": "Finished:",
@@ -245,7 +253,7 @@ $card =
 $card = $card.Replace("@operation", $operation)
 $card = $card.Replace("@reason", $reason)
 $card = $card.Replace("@runner", $env:COMPUTERNAME)
-$card = $card.Replace("@build-branch", $buildBranch.ToUpper())
+$card = $card.Replace("@build-branch", $buildBranch)
 $card = $card.Replace("@build-commit-uri", $buildCommitUri)
 $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
 $card = $card.Replace("@build-outcome-color", $buildOutcomeColor)
