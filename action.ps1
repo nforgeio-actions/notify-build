@@ -89,7 +89,7 @@ else
 # Parse the optional start/finish times and compute the elapsed time.  Note that
 # we're going to display "-na" when either of these timestamps were not passed.
 
-if (($startTime -eq $null) -or ($endTime -eq $null))
+if ([System.String]::IsNullOrEmpty($startTime) -or [System.String]::IsNullOrEmpty($endTime))
 {
     $startTime   = "-na-"
     $finishTime  = "-na-"
