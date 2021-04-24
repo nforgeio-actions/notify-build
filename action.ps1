@@ -200,7 +200,7 @@ $card =
             "facts": [
                 {
                     "name": "Outcome:",
-                    "value": "build-outcome"
+                    "value": "@build-outcome"
                 },
                 {
                     "name": "Runner:",
@@ -256,7 +256,6 @@ $card = $card.Replace("@runner", $env:COMPUTERNAME)
 $card = $card.Replace("@build-branch", $buildBranch)
 $card = $card.Replace("@build-commit-uri", $buildCommitUri)
 $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
-$card = $card.Replace("@build-outcome-color", $buildOutcomeColor)
 $card = $card.Replace("@workflow-run-uri", $workflowRunUri)
 $card = $card.Replace("@workflow-uri", $workflowUri)
 $card = $card.Replace("@finish-time", $finishTime)
