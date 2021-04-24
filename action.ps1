@@ -89,7 +89,12 @@ else
 # Parse the optional start/finish times and compute the elapsed time.  Note that
 # we're going to display "-na" when either of these timestamps were not passed.
 
-if ([System.String]::IsNullOrEmpty($startTime) -or [System.String]::IsNullOrEmpty($endTime))
+Write-Output "**************************************"
+Write-Output "start-time:  $startTime"
+Write-Output "finish-time: $finishTime"
+Write-Output "**************************************"
+
+if ([System.String]::IsNullOrEmpty($startTime) -or [System.String]::IsNullOrEmpty($finishTime))
 {
     $startTime   = "-na-"
     $finishTime  = "-na-"
@@ -101,6 +106,8 @@ else
     $finishTime  = [System.DateTime]::Parse($finishTime).ToString("u")
     $elapsedTime = $(New-TimeSpan $startTime $finishTime).ToString("c")
 }
+
+Write-Output "**************************************"
 
 # Determine the workflow run URI.
 
