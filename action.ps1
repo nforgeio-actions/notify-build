@@ -68,12 +68,12 @@ if (!$sendAlways -and !$sendOn.Contains($buildOutcome))
 
 # Handle missing [build-branch] and [build-commit-uri] inputs.
 
-if ($buildBranch -eq $null)
+if ([System.String]::IsNullOrEmpty($buildBranch))
 {
     $buildBranch = "-na"
 }
 
-if (($buildCommit -eq $null) -or ($buildCommitUri -eq $null))
+if ([System.String]::IsNullOrEmpty($buildCommit) -or ([System.String]::IsNullOrEmpty($buildCommitUri))
 {
     $buildCommitUri = "-na"
 }
