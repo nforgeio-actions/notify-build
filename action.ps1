@@ -73,7 +73,7 @@ if ($buildBranch -eq $null)
     $buildBranch = "-na"
 }
 
-if (($buildCommit -eq $null) -or ($buildCommitUri -eq))
+if (($buildCommit -eq $null) -or ($buildCommitUri -eq $null))
 {
     $buildCommitUri = "-na"
 }
@@ -170,9 +170,11 @@ Switch ($buildOutcome)
         $themeColor = "ff0000" # red
     }
 }
-    # This is the legacy MessageCard format:
-    #
-    #   https://docs.microsoft.com/en-us/outlook/actionable-messages/message-card-reference
+
+# This is the legacy MessageCard format (Adaptive Cards are not supported by
+# the Team Connector at this time):
+#
+#   https://docs.microsoft.com/en-us/outlook/actionable-messages/message-card-reference
 
 $card = 
 @'
