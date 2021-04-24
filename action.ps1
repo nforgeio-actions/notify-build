@@ -207,12 +207,12 @@ $card =
                     "value": "@build-branch"
                 },
                 {
-                    "name": "Runner:",
-                    "value": "@runner"
-                },
-                {
                     "name": "Commit:",
                     "value": "@build-commit-uri"
+                },
+                {
+                    "name": "Runner:",
+                    "value": "@runner"
                 },
                 {
                     "name": "Finished:",
