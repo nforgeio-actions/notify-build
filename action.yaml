@@ -35,12 +35,21 @@ inputs:
   channel:
     description: "Specifies the target Teams channel URI"
     required: true
+  build-branch:
+    description: "Indicates which target repo branch was built"
+    required: false
+  build-commit:
+    description: "Optionally specifies the build commit"
+    required: false
+  build-commit-uri:
+    description: "Optionally specifies target repo commit URI"
+    required: false
   start-time:
-    description: "Indicates when the build started (this must be formatted like: YYYY-MM-DD HH-MM:SSZ)"
-    required: true
+    description: "Optionally indicates when the build started (this must be formatted like: YYYY-MM-DD HH-MM:SSZ)"
+    required: false
   finish-time:
-    description: "Indicates when the build completed or failed"
-    required: true
+    description: "Optionally indicates when the build completed or failed"
+    required: false
   build-outcome:
     description: "The build step outcome from [steps.BUILDSTEP.outcome], one of: 'success', 'failure', 'cancelled', or 'skipped'"
     required: true

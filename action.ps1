@@ -45,13 +45,16 @@ Pop-Location
       
 # Fetch the inputs.
 
-$channel      = Get-ActionInput "channel"       $true
-$operation    = Get-ActionInput "operation"     $true
-$startTime    = Get-ActionInput "start-time"    $false
-$finishTime   = Get-ActionInput "finish-time"   $false
-$buildOutcome = Get-ActionInput "build-outcome" $true
-$workflowRef  = Get-ActionInput "workflow-ref"  $true
-$sendOn       = Get-ActionInput "send-on"       $false
+$channel        = Get-ActionInput "channel"          $true
+$operation      = Get-ActionInput "operation"        $true
+$buildBranch    = Get-ActionInput "build-branch"     $false
+$buildCommit    = Get-ActionInput "build-commit"     $false
+$buildCommitUri = Get-ActionInput "build-commit-uri" $false
+$startTime      = Get-ActionInput "start-time"       $false
+$finishTime     = Get-ActionInput "finish-time"      $false
+$buildOutcome   = Get-ActionInput "build-outcome"    $true
+$workflowRef    = Get-ActionInput "workflow-ref"     $true
+$sendOn         = Get-ActionInput "send-on"          $false
 
 # Exit if the notification shouldn't be transmitted based on the build outcome.
 # We're going to do a simple string match here rather than parsing [send-on].
@@ -61,6 +64,22 @@ $sendAlways = ($sendOn -eq $null) -or ($sendOn.Contains("always"))
 if (!$sendAlways -and !$sendOn.Contains($buildOutcome))
 {
     return
+}
+
+# Handle missing [build-branch] and [build-commit-uri] inputs.
+
+if ($buildBranch -eq $null)
+{
+    $buildBranch = "-na"
+}
+
+if (($buildCommit -eq $null) -or ($buildCommitUri -eq))
+{
+    $buildCommitUri = "-na"
+}
+else
+{
+    $buildCommitUri = "[$buildCommit]($buildCommitUri)"
 }
 
 # Parse the optional start/finish times and compute the elapsed time.  Note that
@@ -83,20 +102,22 @@ else
 
 $workflowRunUri = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"
 
-# Convert [$workflowRef] into the URI to referencing the correct branch.  We're
+# Convert [$workflowRef] into the URI to referencing the correct workflow branch.  We're
 # going to use the GITHUB_REF environment variable.  This includes the branch like:
 #
 #       refs/heads/master
+#
+# Note that the workflow may be executing on a different branch than the repos being built.
 
 if (!$workflowRef.Contains("/blob/master/"))
 {
     throw "[workflow-ref=$workflowRef] is missing '/blob/master/'."
 }
 
-$githubRef    = $env:GITHUB_REF
-$lastSlashPos = $githubRef.LastIndexOf("/")
-$branch       = $githubRef.Substring($lastSlashPos + 1)
-$workflowUri  = $workflowRef.Replace("/blob/master/", "/blob/$branch/")
+$githubRef      = $env:GITHUB_REF
+$lastSlashPos   = $githubRef.LastIndexOf("/")
+$workflowBranch = $githubRef.Substring($lastSlashPos + 1)
+$workflowUri    = $workflowRef.Replace("/blob/master/", "/blob/$workflowBranch/")
 
 # Determine the reason why the workflow was started based on the GITHUB_EVENT_NAME
 # and GITHUB_ACTOR environment variables.
@@ -123,186 +144,37 @@ else
     $reason = "Event: **$event**"
 }
 
-# Set the accents based on the build outcome.
+# Set the theme color based on the build outcome.
 
-$buildOutcomeColor    = "default"
-$buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/warning.png"
-$themeColor           = "ff0000" # green
+$themeColor = "ff0000" # green
 
 Switch ($buildOutcome)
 {
     "success"
     {
-        $buildOutcomeColor    = "good"
-        $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/ok.png"
-        $themeColor           = "00ff00" # green
+        $themeColor = "00ff00" # green
     }
 
     "cancelled"
     {
-        $buildOutcomeColor    = "warning"
-        $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/warning.png"
-        $themeColor           = "ffa500" # orange
+        $themeColor = "ffa500" # orange
     }
 
     "skipped"
     {
-        $buildOutcomeColor    = "warning"
-        $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/warning.png"
-        $themeColor           = "ffa500" # orange
+        $themeColor = "ffa500" # orange
     }
 
     "failure"
     {
-        $buildOutcomeColor    = "attention"
-        $buildOutcomeColorUri = "https://github.com/nforgeio-actions/images/blob/master/teams/error.png"
-        $themeColor           = "ff0000" # red
+        $themeColor = "ff0000" # red
     }
 }
-
-# The Teams connector doesn't support adaptive cards yet although they claim
-# this feature is in testing for the better part of a year (by Alex Bauer no less):
-#
-#       https://microsoftteams.uservoice.com/forums/555103-public/suggestions/35793883-adaptive-cards-webhooks?page=1&per_page=20
-#
-# I wasted a couple hours laying out the adaptive card below.  I'll retain the
-# code though, in case MSFT gets on the ball and releases this.
-
-if ($false)
-{
-    # We're going to use search/replace to modify a template card.  Here's the
-    # card documentation:
-    #
-    #   https://adaptivecards.io/explorer/
-
-    $card = 
-@'
-{
-  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-  "type": "AdaptiveCard",
-  "version": "1.3",
-  "body": [
-    {
-      "type": "Container",
-      "backgroundImage": "@buildOutcomeColorUri",
-      "items": [
-        {
-          "type": "TextBlock",
-          "text": "@operation",
-          "weight": "bolder",
-          "size": "medium"
-        },
-        {
-          "type": "ColumnSet",
-          "columns": [
-            {
-              "type": "Column",
-              "width": "auto",
-              "items": [
-                {
-                  "type": "Image",
-                  "url": "https://github.com/nforgeio-actions/images/blob/master/teams/devbot.png",
-                  "size": "small",
-                  "style": "person"
-                }
-              ]
-            },
-            {
-              "type": "Column",
-              "width": "stretch",
-              "items": [
-                {
-                  "type": "TextBlock",
-                  "spacing": "none",
-                  "text": "devbot (neonFORGE)",
-                  "wrap": true
-                },
-                {
-                  "type": "TextBlock",
-                  "spacing": "none",
-                  "text": "@finish-time",
-                  "isSubtle": true,
-                  "wrap": true
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "Container",
-      "items": [
-        {
-          "type": "FactSet",
-          "facts": [
-            {
-              "title": "Outcome:",
-              "value": "@build-outcome",
-              "color": "@build-outcome-color"
-            },
-            {
-              "title": "Runner:",
-              "value": "@runner"
-            },
-            {
-              "title": "Elapsed:",
-              "value": "@elapsed-time"
-            }
-          ]
-        },
-        {
-          "type": "ColumnSet",
-          "columns": [
-            {
-              "type": "Column",
-              "width": "stretch",
-              "items": [
-                {
-                  "type": "ActionSet",
-                  "actions": [
-                    {
-                      "type": "Action.OpenUrl",
-                      "title": "Show Workflow Run",
-                      "url": "@workflow-run-uri",
-                      "style": "positive"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "Column",
-              "width": "stretch",
-              "items": [
-                {
-                  "type": "ActionSet",
-                  "actions": [
-                    {
-                      "type": "Action.OpenUrl",
-                      "title": "Show Workflow",
-                      "url": "@workflow-uri",
-                      "style": "positive"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-'@
-}
-else
-{
-    # This is the old MessageCard format:
+    # This is the legacy MessageCard format:
     #
     #   https://docs.microsoft.com/en-us/outlook/actionable-messages/message-card-reference
 
-    $card = 
+$card = 
 @'
 {
     "@type": "MessageCard",
@@ -322,7 +194,11 @@ else
                 },
                 {
                     "name": "Branch:",
-                    "value": "**@branch**"
+                    "value": "**@build-branch**"
+                },
+                {
+                    "name": "Commit:",
+                    "value": "@build-commit-uri"
                 },
                 {
                     "name": "Runner:",
@@ -363,12 +239,12 @@ else
     ]
 }    
 '@
-}
 
 $card = $card.Replace("@operation", $operation)
 $card = $card.Replace("@reason", $reason)
 $card = $card.Replace("@runner", $env:COMPUTERNAME)
-$card = $card.Replace("@branch", $branch.ToUpper())
+$card = $card.Replace("@build-branch", $buildBranch.ToUpper())
+$card = $card.Replace("@build-commit-uri", $buildCommitUri)
 $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
 $card = $card.Replace("@build-outcome-color", $buildOutcomeColor)
 $card = $card.Replace("@workflow-run-uri", $workflowRunUri)
