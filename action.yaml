@@ -30,7 +30,7 @@ name: teams-notify-build
 description: "Sends a build related message to a Microsoft Teams channel URI"
 inputs:
   operation:
-    description: "Identifies the build being performed (this must be formatted like: YYYY-MM-DD HH-MM:SSZ)"
+    description: "Identifies the build operation being performed"
     required: true
   channel:
     description: "Specifies the target Teams channel URI"

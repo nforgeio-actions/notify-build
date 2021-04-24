@@ -111,7 +111,7 @@ $workflowRunUri = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$e
 #
 #       refs/heads/master
 #
-# Note that the workflow may be executing on a different branch than the repos being built.
+# Note that the workflow may be executing on a different branch than the repo build.
 
 if (!$workflowRef.Contains("/blob/master/"))
 {
