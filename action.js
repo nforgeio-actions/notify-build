@@ -16,7 +16,9 @@ const core = require('@actions/core');
 const exec = require("child_process").exec;
 
 // Set the current directory to the folder where this script is located, which 
-// will be the root folder for the action files. 
+// will be the root folder for the action files.
+
+process.chdir(__dirname);
 
 // Launch the Powershell script.
 
