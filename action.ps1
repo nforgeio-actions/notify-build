@@ -145,7 +145,7 @@ if ($event -eq "workflow_dispatch")
 }
 else
 {
-    $reason = "Event: **$event**"
+    $reason = "Event trigger: **$event**"
 }
 
 # Set the theme color based on the build outcome.
