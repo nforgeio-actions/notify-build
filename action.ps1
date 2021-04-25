@@ -53,7 +53,6 @@ $buildCommitUri = Get-ActionInput "build-commit-uri" $false
 $startTime      = Get-ActionInput "start-time"       $false
 $finishTime     = Get-ActionInput "finish-time"      $false
 $buildOutcome   = Get-ActionInput "build-outcome"    $true
-$buildSuccess   = $(Get-ActionInput "build-success" $true) -eq 'true'
 $workflowRef    = Get-ActionInput "workflow-ref"     $true
 $sendOn         = Get-ActionInput "send-on"          $false
 
@@ -174,12 +173,6 @@ Switch ($buildOutcome)
     {
         $themeColor = "ff0000" # red
     }
-}
-
-if (!$buildSuccess)
-{
-    $themeColor   = "ff0000" # red
-    $buildOutcome = "ERROR"
 }
 
 # Format $buildOutcome
