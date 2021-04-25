@@ -53,9 +53,6 @@ inputs:
   build-outcome:
     description: "The build step outcome from [steps.BUILDSTEP.outcome], one of: 'success', 'failure', 'cancelled', or 'skipped'"
     required: true
-  build-success:
-    description: "Indicates whether the build succeeded or failed.  This must be one of 'true' or 'false'."
-    required: true
   workflow-ref:
     description: "The URI to the executing workflow YAML file.  This MUST include the [/blob/master] path segments which will be replaced with the current branch."
     required: true
