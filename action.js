@@ -16,19 +16,19 @@ const core = require('@actions/core');
 const exec = require("child_process").exec;
 
 // Set the current directory to the folder where this script is located, which 
-// will be the root folder for the action files.
+// will be the root folder for the action files. 
 
 process.chdir(__dirname);
 
 // Launch the Powershell script.
 
-exec("pwsh -File action.ps1", 
-  function(err, stdout, stderr) {
-  
-      process.stdout.write(stdout); 
-      process.stderr.write(stderr); 
+exec("pwsh -File action.ps1", { maxBuffer: 1024 * 1024 },
+    function (err, stdout, stderr) {
 
-      if (err) {
-          core.setFailed(`Action failed: ${err}`);
-      }
+        process.stdout.write(stdout);
+        process.stderr.write(stderr);
+
+        if (err) {
+            core.setFailed(`Action failed: ${err}`);
+        }
     });
