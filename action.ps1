@@ -19,7 +19,7 @@
 #   build-outcome   - Build step outcome, one of: 'success', 'failure', 'cancelled', or 'skipped'
 #   build-success   - Indicates whether the build succeeded or failed
 #   send-on         - Optionally specifies the conditions when a notification can be sent.
-#                     This can be one or more of the following values separated by commas:
+#                     This can be one or more of the following values separated by spaces:
 #
 #                           always          - send always
 #                           failure         - send when the build step outcome is 'success'

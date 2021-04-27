@@ -60,7 +60,7 @@ inputs:
     description: "The URI to the executing workflow YAML file.  This MUST include the [/blob/master] path segments which will be replaced with the current branch."
     required: true
   send-on:
-    description: "Optionally specifies a comma separated list of build outcomes that will trigger the notification or one of: `always`, `build-success`, or `build-fail"
+    description: "Optionally specifies a space separated list of build outcomes that will trigger the notification or one of: `always`, `build-success`, or `build-fail"
     required: false
     default: always
 runs:
