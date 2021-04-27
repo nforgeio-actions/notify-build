@@ -73,7 +73,7 @@ try
         {
             # Send the notification below.
         }
-        elseif (!$buildSuccess -and $(sendOn.Contains("build-fail")))
+        elseif (!$buildSuccess -and $($sendOn.Contains("build-fail")))
         {
             # Send the notification below.
         }
