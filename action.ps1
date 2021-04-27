@@ -17,9 +17,17 @@
 #   start-time      - Time when the build started (formatted like YYYY-MM-DD HH-MM:SSZ)
 #   finish-time     - Time when the build completed (formatted like YYYY-MM-DD HH-MM:SSZ)
 #   build-outcome   - Build step outcome, one of: 'success', 'failure', 'cancelled', or 'skipped'
-#   send-on         - Optionally specifies the comma separated list of [build-outcome] values
-#                     that will trigger the notification.  The default is to always send the
-#                     notification.
+#   build-success   - Indicates whether the build succeeded or failed
+#   send-on         - Optionally specifies the conditions when a notification can be sent.
+#                     This can be one or more of the following values separated by commas:
+#
+#                           always          - send always
+#                           failure         - send when the build step outcome is 'success'
+#                           failure         - send when the build step outcome is 'failure'
+#                           cancelled       - send when the build step outcome is 'cancelled'
+#                           skipped         - send when the build step outcome is 'skipped'
+#                           build-success   - send when the actual build (vs. the step) succeeded
+#                           build-fail      - send when the actual build (vs. the step) failed
     
 # Verify that we're running on a properly configured neonFORGE jobrunner 
 # and import the deployment and action scripts from neonCLOUD.

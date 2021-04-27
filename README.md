@@ -39,6 +39,7 @@ jobs:
         operation: neonFORGE Build
         channel: ${{ steps.environment.outputs.TEAM_DEVOPS_CHANNEL }}
         build-outcome: ${{ steps.build.outcome }}
+        build-success: ${{ steps.build.outputs.success }}
         workflow-ref: https://github.com/nforgeio/neonCLOUD/blob/master/.github/workflows/action-test.yaml
 ```
 
@@ -76,6 +77,7 @@ jobs:
         operation: neonFORGE Build
         channel: ${{ steps.environment.outputs.TEAM_DEVOPS_CHANNEL }}
         build-outcome: ${{ steps.build.outcome }}
+        build-success: ${{ steps.build.outputs.success }}
         workflow-ref: https://github.com/nforgeio/neonCLOUD/blob/master/.github/workflows/action-test.yaml
         send-on: "failure, cancelled, skipped"
 ```
@@ -127,5 +129,6 @@ jobs:
         start-time: ${{ steps.start-timestamp.outputs.value }}
         finish-time: ${{ steps.finish-timestamp.outputs.value }}
         build-outcome: ${{ steps.build.outcome }}
+        build-success: ${{ steps.build.outputs.success }}
         workflow-ref: https://github.com/nforgeio/neonCLOUD/blob/master/.github/workflows/action-test.yaml
 ```
