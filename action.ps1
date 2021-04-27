@@ -69,7 +69,7 @@ try
 
     if (!$sendAlways -and !$sendOn.Contains($buildOutcome))
     {
-        if ($buildSuccess -and $(sendOn.Contains("build-success")))
+        if ($buildSuccess -and $($sendOn.Contains("build-success")))
         {
             # Send the notification below.
         }
