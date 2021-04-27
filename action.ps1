@@ -65,27 +65,40 @@ try
     # and success.  We're going to do a simple string match here rather than parsing
     # [send-on].
 
+Write-ActionOutput "***********************************************"
+Write-ActionOutput "sendOn:       [$sendOn]"
+Write-ActionOutput "buildSuccess: [$buildSuccess]"
+
     $sendAlways = $sendOn.Contains("always")
+
+    Write-ActionOutput "sendAlways:   [$sendAlways]"
 
     if (!$sendAlways -and !$sendOn.Contains($buildOutcome))
     {
         # Handle the build-success/fail build step result.
 
+Write-ActionOutput "**** 0"
         if ($buildSuccess -and $sendOn.Contains("build-success"))
         {
+Write-ActionOutput "**** 1"
             # Send the notification below.
         }
+Write-ActionOutput "**** 2"
         elseif (!$buildSuccess -and $sendOn.Contains("build-fail"))
         {
             # Send the notification below.
         }
         else 
         {
-            # Don't send the notification below.
+Write-ActionOutput "**** 3"
+            # Exit so we don't send a notification.
 
             return
         }
     }
+
+Write-ActionOutput "**** 4"
+Write-ActionOutput "***********************************************"
 
     # Handle missing [build-branch] and [build-commit-uri] inputs.
 
