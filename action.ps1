@@ -57,14 +57,15 @@ try
     $startTime      = Get-ActionInput "start-time"       $false
     $finishTime     = Get-ActionInput "finish-time"      $false
     $buildOutcome   = Get-ActionInput "build-outcome"    $true
-    $buildSuccess   = $(Get-ActionInput "build-success" $True) -eq "true"
+    $buildSuccess   = $(Get-ActionInput "build-success" $true) -eq "true"
     $workflowRef    = Get-ActionInput "workflow-ref"     $true
     $sendOn         = Get-ActionInput "send-on"          $false
 
-    # Exit if the notification shouldn't be transmitted based on the build outcome.
-    # We're going to do a simple string match here rather than parsing [send-on].
+    # Exit if the notification shouldn't be transmitted based on the build outcome
+    # and success.  We're going to do a simple string match here rather than parsing
+    # [send-on].
 
-    $sendAlways = ($sendOn -eq $null) -or ($sendOn.Contains("always"))
+    $sendAlways = ($sendOn -eq $null) -or $($sendOn.Contains("always"))
 
     if (!$sendAlways -and !$sendOn.Contains($buildOutcome))
     {
