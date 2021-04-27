@@ -65,15 +65,17 @@ try
     # and success.  We're going to do a simple string match here rather than parsing
     # [send-on].
 
-    $sendAlways = ($sendOn -eq $null) -or $($sendOn.Contains("always"))
+    $sendAlways = $sendOn.Contains("always")
 
     if (!$sendAlways -and !$sendOn.Contains($buildOutcome))
     {
-        if ($buildSuccess -and $($sendOn.Contains("build-success")))
+        # Handle the build-success/fail build step result.
+
+        if ($buildSuccess -and $sendOn.Contains("build-success"))
         {
             # Send the notification below.
         }
-        elseif (!$buildSuccess -and $($sendOn.Contains("build-fail")))
+        elseif (!$buildSuccess -and $sendOn.Contains("build-fail"))
         {
             # Send the notification below.
         }
