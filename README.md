@@ -79,7 +79,7 @@ jobs:
         build-outcome: ${{ steps.build.outcome }}
         build-success: ${{ steps.build.outputs.success }}
         workflow-ref: https://github.com/nforgeio/neonCLOUD/blob/master/.github/workflows/action-test.yaml
-        send-on: "failure, cancelled, skipped"
+        send-on: "build-fail failure cancelled skipped"
 ```
 
 **Include build time in the notification:**
