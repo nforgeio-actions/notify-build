@@ -209,7 +209,7 @@ Write-ActionOutput "***********************************************"
         }
     }
 
-    if (!buildSuccess)
+    if (!$buildSuccess)
     {
         $themeColor   = "ff0000" # red
         $buildOutcome = "BUILD FAILED"
