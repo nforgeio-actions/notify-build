@@ -65,44 +65,27 @@ try
     # and success.  We're going to do a simple string match here rather than parsing
     # [send-on].
 
-Write-ActionOutput "***********************************************"
-Write-ActionOutput "sendOn:       [$sendOn]"
-Write-ActionOutput "buildSuccess: [$buildSuccess]"
-
     $sendAlways = $sendOn.Contains("always")
-
-Write-ActionOutput "sendAlways:   [$sendAlways]"
 
     if (!$sendAlways -and !$sendOn.Contains($buildOutcome))
     {
         # Handle the build-success/fail build step result.
 
-Write-ActionOutput "**** 0"
         if ($buildSuccess -and $sendOn.Contains("build-success"))
         {
-Write-ActionOutput "**** 1"
             # Send the notification below.
         }
         elseif (!$buildSuccess -and $sendOn.Contains("build-fail"))
         {
-Write-ActionOutput "**** 2"
             # Send the notification below.
         }
         else 
         {
-Write-ActionOutput "**** 3"
             # Exit so we don't send a notification.
 
             return
         }
     }
-
-Write-ActionOutput "**** 4"
-
-Write-ActionOutput "buildBranch:    [$buildBranch]"
-Write-ActionOutput "buildCommitUri: [$buildCommitUri]"
-
-Write-ActionOutput "***********************************************"
 
     # Handle missing [build-branch] and [build-commit-uri] inputs.
 
@@ -224,7 +207,7 @@ Write-ActionOutput "***********************************************"
     $buildOutcome = "**$buildOutcome**"
 
     # This is the legacy MessageCard format (Adaptive Cards are not supported by
-    # the Team Connector at this time):
+    # the Teams Connector at this time):
     #
     #   https://docs.microsoft.com/en-us/outlook/actionable-messages/message-card-reference
 
