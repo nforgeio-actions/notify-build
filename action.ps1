@@ -192,6 +192,15 @@ try
         {
             $themeColor = "ff0000" # red
         }
+
+        default
+        {
+            if (!buildSuccess)
+            {
+                $themeColor   = "ff0000" # red
+                $buildOutcome = "BUILD FAILED"
+            }
+        }
     }
 
     # Format $buildOutcome
