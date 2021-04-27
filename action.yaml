@@ -53,11 +53,14 @@ inputs:
   build-outcome:
     description: "The build step outcome from [steps.BUILDSTEP.outcome], one of: 'success', 'failure', 'cancelled', or 'skipped'"
     required: true
+  build-success:
+    description: "The build step's [success] output"
+    required: true
   workflow-ref:
     description: "The URI to the executing workflow YAML file.  This MUST include the [/blob/master] path segments which will be replaced with the current branch."
     required: true
   send-on:
-    description: "Optionally specifies a comma separated list of build outcomes (or 'always') that will trigger the notification.  Notifications will always be sent by default."
+    description: "Optionally specifies a comma separated list of build outcomes that will trigger the notification or one of: `always`, `build-success`, or `build-fail"
     required: false
     default: always
 runs:
