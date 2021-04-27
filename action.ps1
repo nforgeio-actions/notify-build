@@ -98,6 +98,10 @@ Write-ActionOutput "**** 3"
     }
 
 Write-ActionOutput "**** 4"
+
+Write-ActionOutput "buildBranch:    [$buildBranch]"
+Write-ActionOutput "buildCommitUri: [$buildCommitUri]"
+
 Write-ActionOutput "***********************************************"
 
     # Handle missing [build-branch] and [build-commit-uri] inputs.
