@@ -71,7 +71,7 @@ Write-ActionOutput "buildSuccess: [$buildSuccess]"
 
     $sendAlways = $sendOn.Contains("always")
 
-    Write-ActionOutput "sendAlways:   [$sendAlways]"
+Write-ActionOutput "sendAlways:   [$sendAlways]"
 
     if (!$sendAlways -and !$sendOn.Contains($buildOutcome))
     {
@@ -83,9 +83,9 @@ Write-ActionOutput "**** 0"
 Write-ActionOutput "**** 1"
             # Send the notification below.
         }
-Write-ActionOutput "**** 2"
         elseif (!$buildSuccess -and $sendOn.Contains("build-fail"))
         {
+Write-ActionOutput "**** 2"
             # Send the notification below.
         }
         else 
