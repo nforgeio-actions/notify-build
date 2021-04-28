@@ -158,26 +158,26 @@ try
     # Determine the reason why the workflow was triggered based on the GITHUB_EVENT_NAME
     # and GITHUB_ACTOR environment variables.
 
-    $event = $env:GITHUB_EVENT_NAME
-    $actor = $env:GITHUB_ACTOR
+    $eventName = $env:GITHUB_EVENT_NAME
+    $actor     = $env:GITHUB_ACTOR
 
     if (![System.String]::IsNullOrEmpty($actor))
     {
         $actor = $actor.ToUpper()
     }
 
-    if (![System.String]::IsNullOrEmpty($event))
+    if (![System.String]::IsNullOrEmpty($eventName))
     {
-        $event = $event.ToUpper()
+        $eventName = $eventName.ToUpper()
     }
 
-    if ($event -eq "workflow_dispatch")
+    if ($eventName -eq "workflow_dispatch")
     {
         $trigger = "Started by: **$actor**"
     }
     else
     {
-        $trigger = "Event trigger: **$event**"
+        $trigger = "Event trigger: **$eventName**"
     }
 
     # Set the theme color based on the build outcome/success inputs.
