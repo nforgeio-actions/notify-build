@@ -12,22 +12,25 @@
 #
 # INPUTS:
 #
-#   channel         - Target Teams channel webhook URI
-#   start-time      - Time when the build started (formatted like YYYY-MM-DD HH-MM:SSZ)
-#   finish-time     - Time when the build completed (formatted like YYYY-MM-DD HH-MM:SSZ)
-#   build-summary   - Identifies what's being built
-#   build-outcome   - Build step outcome, one of: 'success', 'failure', 'cancelled', or 'skipped'
-#   build-success   - Indicates whether the build succeeded or failed
-#   send-on         - Optionally specifies the conditions when a notification can be sent.
-#                     This can be one or more of the following values separated by spaces:
+#   channel             - Target Teams channel webhook URI
+#   start-time          - Time when the build started (formatted like YYYY-MM-DD HH-MM:SSZ)
+#   finish-time         - Time when the build completed (formatted like YYYY-MM-DD HH-MM:SSZ)
+#   build-summary       - Identifies what's being built
+#   build-branch        - Indicates which target repo branch was built
+#   build-commit        - Optionally specifies the build commit
+#   build-commit-uri    - Optionally specifies target repo commit URI
+#   build-outcome       - Build step outcome, one of: 'success', 'failure', 'cancelled', or 'skipped'
+#   build-success       - Indicates whether the build succeeded or failed
+#   send-on             - Optionally specifies the conditions when a notification can be sent.
+#                         This can be one or more of the following values separated by spaces:
 #
-#                           always          - send always
-#                           failure         - send when the build step outcome is 'success'
-#                           failure         - send when the build step outcome is 'failure'
-#                           cancelled       - send when the build step outcome is 'cancelled'
-#                           skipped         - send when the build step outcome is 'skipped'
-#                           build-success   - send when the actual build (vs. the step) succeeded
-#                           build-fail      - send when the actual build (vs. the step) failed
+#                               always          - send always
+#                               failure         - send when the build step outcome is 'success'
+#                               failure         - send when the build step outcome is 'failure'
+#                               cancelled       - send when the build step outcome is 'cancelled'
+#                               skipped         - send when the build step outcome is 'skipped'
+#                               build-success   - send when the actual build (vs. the step) succeeded
+#                               build-fail      - send when the actual build (vs. the step) failed
     
 # Verify that we're running on a properly configured neonFORGE jobrunner 
 # and import the deployment and action scripts from neonCLOUD.
