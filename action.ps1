@@ -288,7 +288,7 @@ try
 }    
 '@
 
-    $card = $card.Replace("@build-summary", $build-summary)
+    $card = $card.Replace("@build-summary", $buildSummary)
     $card = $card.Replace("@reason", $reason)
     $card = $card.Replace("@runner", $env:COMPUTERNAME)
     $card = $card.Replace("@build-branch", $buildBranch)
