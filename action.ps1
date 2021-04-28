@@ -225,66 +225,66 @@ try
     $card = 
 @'
 {
-    "@type": "MessageCard",
-    "@context": "https://schema.org/extensions",
-    "themeColor": "@theme-color",
-    "summary": "neon automation",
-    "sections": [
+  "@type": "MessageCard",
+  "@context": "https://schema.org/extensions",
+  "themeColor": "@theme-color",
+  "summary": "neon automation",
+  "sections": [
+    {
+      "activityTitle": "@build-summary",
+      "activitySubtitle": "@reason",
+    },
+    {
+      "facts": [
         {
-            "activityTitle": "@build-summary",
-            "activitySubtitle": "@reason",
+          "name": "Outcome:",
+          "value": "@build-outcome"
         },
         {
-            "facts": [
-                {
-                    "name": "Outcome:",
-                    "value": "@build-outcome"
-                },
-                {
-                    "name": "Branch:",
-                    "value": "@build-branch"
-                },
-                {
-                    "name": "Commit:",
-                    "value": "@build-commit-uri"
-                },
-                {
-                    "name": "Runner:",
-                    "value": "@runner"
-                },
-                {
-                    "name": "Finished:",
-                    "value": "@finish-time"
-                },
-                {
-                    "name": "Elapsed:",
-                    "value": "@elapsed-time"
-                }
-            ]
-        }
-    ],
-    "potentialAction": [
-        {
-            "@type": "OpenUri",
-            "name": "Show Workflow Run",
-            "targets": [
-              {
-                "os": "default",
-                "uri": "@workflow-run-uri"
-              }
-            ]
+          "name": "Branch:",
+          "value": "@build-branch"
         },
         {
-            "@type": "OpenUri",
-            "name": "Show Workflow",
-            "targets": [
-              {
-                "os": "default",
-                "uri": "@workflow-uri"
-              }
-            ]
+          "name": "Commit:",
+          "value": "@build-commit-uri"
+        },
+        {
+          "name": "Runner:",
+          "value": "@runner"
+        },
+        {
+          "name": "Finished:",
+          "value": "@finish-time"
+        },
+        {
+          "name": "Elapsed:",
+          "value": "@elapsed-time"
         }
-    ]
+      ]
+    }
+  ],
+  "potentialAction": [
+     {
+       "@type": "OpenUri",
+       "name": "Show Workflow Run",
+       "targets": [
+         {
+           "os": "default",
+           "uri": "@workflow-run-uri"
+         }
+       ]
+     },
+     {
+       "@type": "OpenUri",
+       "name": "Show Workflow",
+       "targets": [
+         {
+           "os": "default",
+           "uri": "@workflow-uri"
+         }
+       ]
+     }
+  ]
 }    
 '@
 
