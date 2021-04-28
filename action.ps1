@@ -228,7 +228,7 @@ try
   "@type": "MessageCard",
   "@context": "https://schema.org/extensions",
   "themeColor": "@theme-color",
-  "summary": "neon automation",
+  "summary": "@build-summary",
   "sections": [
     {
       "activityTitle": "@build-summary",
