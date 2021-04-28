@@ -20,12 +20,6 @@
 # Channel URIs are secrets and should be persisted to the 1Password account for the user
 # and obtained at runtime via the noenFORGE deployment mechanisms.
 
-# IMPLEMENTATION NOTES:
-# ---------------------
-# We're sending actionable cards using the Adaaptive Card message format:
-#
-#   https://adaptivecards.io/
-
 name: teams-notify-build
 description: "Sends a build related message to a Microsoft Teams channel URI"
 inputs:
