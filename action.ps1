@@ -72,8 +72,8 @@ try
     $workflowRef    = Get-ActionInput "workflow-ref"     $true
     $sendOn         = Get-ActionInput "send-on"          $false
 
-    # Exit if the notification shouldn't be transmitted based on the build outcome
-    # and success.  We're going to do a simple string match here rather than parsing
+    # Exit if the notification shouldn't be transmitted based on the build step outcome
+    # and its success output.  We're going to do a simple string match here rather than parsing
     # [send-on].
 
     $sendAlways = $sendOn.Contains("always")
@@ -278,10 +278,10 @@ try
             "@type": "OpenUri",
             "name": "Show Workflow",
             "targets": [
-            {
+              {
                 "os": "default",
                 "uri": "@workflow-uri"
-            }
+              }
             ]
         }
     ]
