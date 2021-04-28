@@ -8,7 +8,7 @@
 # formal written and signed agreement with neonFORGE, LLC.
 
 #------------------------------------------------------------------------------
-# Sends a build related notification to a Teams channel.
+# Sends a build related notification message to a Microsoft Teams channel URI.
 #
 # INPUTS:
 #
