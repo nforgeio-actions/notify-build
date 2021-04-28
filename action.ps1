@@ -61,7 +61,7 @@ try
     # Fetch the inputs.
 
     $channel        = Get-ActionInput "channel"          $true
-    build-summary   = Get-ActionInput "build-summary"    $true
+    $buildSummary   = Get-ActionInput "build-summary"    $true
     $buildBranch    = Get-ActionInput "build-branch"     $false
     $buildCommit    = Get-ActionInput "build-commit"     $false
     $buildCommitUri = Get-ActionInput "build-commit-uri" $false
