@@ -13,9 +13,9 @@
 # INPUTS:
 #
 #   channel         - Target Teams channel webhook URI
-#   operation       - Identifies what's being built
 #   start-time      - Time when the build started (formatted like YYYY-MM-DD HH-MM:SSZ)
 #   finish-time     - Time when the build completed (formatted like YYYY-MM-DD HH-MM:SSZ)
+#   build-summary   - Identifies what's being built
 #   build-outcome   - Build step outcome, one of: 'success', 'failure', 'cancelled', or 'skipped'
 #   build-success   - Indicates whether the build succeeded or failed
 #   send-on         - Optionally specifies the conditions when a notification can be sent.
@@ -58,7 +58,7 @@ try
     # Fetch the inputs.
 
     $channel        = Get-ActionInput "channel"          $true
-    $operation      = Get-ActionInput "operation"        $true
+    build-summary   = Get-ActionInput "build-summary"    $true
     $buildBranch    = Get-ActionInput "build-branch"     $false
     $buildCommit    = Get-ActionInput "build-commit"     $false
     $buildCommitUri = Get-ActionInput "build-commit-uri" $false
@@ -228,7 +228,7 @@ try
     "summary": "neon automation",
     "sections": [
         {
-            "activityTitle": "@operation",
+            "activityTitle": "@build-summary",
             "activitySubtitle": "@reason",
         },
         {
@@ -285,7 +285,7 @@ try
 }    
 '@
 
-    $card = $card.Replace("@operation", $operation)
+    $card = $card.Replace("@build-summary", $build-summary)
     $card = $card.Replace("@reason", $reason)
     $card = $card.Replace("@runner", $env:COMPUTERNAME)
     $card = $card.Replace("@build-branch", $buildBranch)

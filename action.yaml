@@ -29,9 +29,6 @@
 name: teams-notify-build
 description: "Sends a build related message to a Microsoft Teams channel URI"
 inputs:
-  operation:
-    description: "Identifies the build operation being performed"
-    required: true
   channel:
     description: "Specifies the target Teams channel URI"
     required: true
@@ -50,6 +47,9 @@ inputs:
   finish-time:
     description: "Optionally indicates when the build completed or failed"
     required: false
+  build-summary:
+    description: "Identifies the build operation being performed"
+    required: true
   build-outcome:
     description: "The build step outcome from [steps.BUILDSTEP.outcome], one of: 'success', 'failure', 'cancelled', or 'skipped'"
     required: true

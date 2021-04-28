@@ -36,8 +36,8 @@ jobs:
       uses: nforgeio-actions/teams-notify-build@master
       if: ${{ always() }}
       with:
-        operation: neonFORGE Build
         channel: ${{ steps.environment.outputs.TEAM_DEVOPS_CHANNEL }}
+        build-summary: neonFORGE Build
         build-outcome: ${{ steps.build.outcome }}
         build-success: ${{ steps.build.outputs.success }}
         workflow-ref: https://github.com/nforgeio/neonCLOUD/blob/master/.github/workflows/action-test.yaml
@@ -74,8 +74,8 @@ jobs:
       uses: nforgeio-actions/teams-notify-build@master
       if: ${{ always() }}
       with:
-        operation: neonFORGE Build
         channel: ${{ steps.environment.outputs.TEAM_DEVOPS_CHANNEL }}
+        build-summary: neonFORGE Build
         build-outcome: ${{ steps.build.outcome }}
         build-success: ${{ steps.build.outputs.success }}
         workflow-ref: https://github.com/nforgeio/neonCLOUD/blob/master/.github/workflows/action-test.yaml
@@ -124,10 +124,10 @@ jobs:
       uses: nforgeio-actions/teams-notify-build@master
       if: ${{ always() }}
       with:
-        operation: neonFORGE Build
         channel: ${{ steps.environment.outputs.TEAM_DEVOPS_CHANNEL }}
         start-time: ${{ steps.start-timestamp.outputs.value }}
         finish-time: ${{ steps.finish-timestamp.outputs.value }}
+        build-summary: neonFORGE Build
         build-outcome: ${{ steps.build.outcome }}
         build-success: ${{ steps.build.outputs.success }}
         workflow-ref: https://github.com/nforgeio/neonCLOUD/blob/master/.github/workflows/action-test.yaml
