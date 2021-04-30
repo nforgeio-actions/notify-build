@@ -63,6 +63,7 @@ try
     $channel        = Get-ActionInput "channel"          $true
     $buildSummary   = Get-ActionInput "build-summary"    $true
     $buildBranch    = Get-ActionInput "build-branch"     $false
+    $buildConfig    = Get-ActionInput "build-config"     $false
     $buildCommit    = Get-ActionInput "build-commit"     $false
     $buildCommitUri = Get-ActionInput "build-commit-uri" $false
     $startTime      = Get-ActionInput "start-time"       $false
@@ -71,6 +72,20 @@ try
     $buildSuccess   = $(Get-ActionInput "build-success" $true) -eq "true"
     $workflowRef    = Get-ActionInput "workflow-ref"     $true
     $sendOn         = Get-ActionInput "send-on"          $false
+
+    if ([System.String]::IsNullOrEmpty($buildConfig))
+    {
+        $buildConfig = "-na-"
+    }
+    else
+    {
+        $buildConfig = $buildConfig.ToLower()
+    }
+
+    if ([System.String]::IsNullOrEmpty($testFilter))
+    {
+        $testFilter = "-na-"
+    }
 
     # Exit if the notification shouldn't be transmitted based on the build step outcome
     # and its success output.  We're going to do a simple string match here rather than parsing
@@ -245,6 +260,10 @@ try
           "value": "@build-branch"
         },
         {
+          "name": "Config:",
+          "value": "@build-config"
+        },
+        {
           "name": "Commit:",
           "value": "@build-commit-uri"
         },
@@ -292,6 +311,7 @@ try
     $card = $card.Replace("@trigger", $trigger)
     $card = $card.Replace("@runner", $env:COMPUTERNAME)
     $card = $card.Replace("@build-branch", $buildBranch)
+    $card = $card.Replace("@build-config", $buildConfig)
     $card = $card.Replace("@build-commit-uri", $buildCommitUri)
     $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
     $card = $card.Replace("@workflow-run-uri", $workflowRunUri)
