@@ -9,28 +9,6 @@
 
 #------------------------------------------------------------------------------
 # Sends a build related notification message to a Microsoft Teams channel URI.
-#
-# INPUTS:
-#
-#   channel             - Target Teams channel webhook URI
-#   start-time          - Time when the build started (formatted like YYYY-MM-DD HH-MM:SSZ)
-#   finish-time         - Time when the build completed (formatted like YYYY-MM-DD HH-MM:SSZ)
-#   build-summary       - Identifies what's being built
-#   build-branch        - Indicates which target repo branch was built
-#   build-commit        - Optionally specifies the build commit
-#   build-commit-uri    - Optionally specifies target repo commit URI
-#   build-outcome       - Build step outcome, one of: 'success', 'failure', 'cancelled', or 'skipped'
-#   build-success       - Indicates whether the build succeeded or failed
-#   send-on             - Optionally specifies the conditions when a notification can be sent.
-#                         This can be one or more of the following values separated by spaces:
-#
-#                               always          - send always
-#                               failure         - send when the build step outcome is 'success'
-#                               failure         - send when the build step outcome is 'failure'
-#                               cancelled       - send when the build step outcome is 'cancelled'
-#                               skipped         - send when the build step outcome is 'skipped'
-#                               build-success   - send when the actual build (vs. the step) succeeded
-#                               build-fail      - send when the actual build (vs. the step) failed
     
 # Verify that we're running on a properly configured neonFORGE jobrunner 
 # and import the deployment and action scripts from neonCLOUD.
@@ -70,7 +48,6 @@ try
     $finishTime     = Get-ActionInput "finish-time"      $false
     $buildOutcome   = Get-ActionInput "build-outcome"    $true
     $buildSuccess   = $(Get-ActionInput "build-success" $true) -eq "true"
-    $workflowRef    = Get-ActionInput "workflow-ref"     $true
     $sendOn         = Get-ActionInput "send-on"          $false
 
     if ([System.String]::IsNullOrEmpty($buildConfig))
@@ -149,26 +126,10 @@ try
         $elapsedTime = $(New-TimeSpan $startTime $finishTime).ToString("c")
     }
 
-    # Determine the workflow run URI.
+    # Fetch the workflow and run run URIs.
 
-    $workflowRunUri = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"
-
-    # Convert [$workflowRef] into the URI to referencing the correct workflow branch.  We're
-    # going to use the GITHUB_REF environment variable.  This includes the branch like:
-    #
-    #       refs/heads/master
-    #
-    # Note that the workflow may be executing on a different branch than the repo build.
-
-    if (!$workflowRef.Contains("/blob/master/"))
-    {
-        throw "[workflow-ref=$workflowRef] is missing '/blob/master/'."
-    }
-
-    $githubRef      = $env:GITHUB_REF
-    $lastSlashPos   = $githubRef.LastIndexOf("/")
-    $workflowBranch = $githubRef.Substring($lastSlashPos + 1)
-    $workflowUri    = $workflowRef.Replace("/blob/master/", "/blob/$workflowBranch/")
+    $workflowUri    = Get-WorkflowUri $env:workflow-path
+    $workflowRunUri = Get-WorkflowRunUri
 
     # Determine the reason why the workflow was triggered based on the GITHUB_EVENT_NAME
     # and GITHUB_ACTOR environment variables.
