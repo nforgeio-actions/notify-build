@@ -128,8 +128,13 @@ try
 
     # Fetch the workflow and run run URIs.
 
+Write-ActionOutput "************************"
+Write-ActionOutput "*** 0"
     $workflowUri    = Get-ActionWorkflowUri
+Write-ActionOutput "*** 1"
     $workflowRunUri = Get-ActionWorkflowRunUri
+Write-ActionOutput "*** 2"
+Write-ActionOutput "************************"
 
     # Determine the reason why the workflow was triggered based on the GITHUB_EVENT_NAME
     # and GITHUB_ACTOR environment variables.
