@@ -48,13 +48,13 @@ inputs:
     description: "Identifies the build operation being performed"
     required: true
   build-outcome:
-    description: "The build step outcome from [steps.BUILDSTEP.outcome], one of: 'success', 'failure', 'cancelled', or 'skipped'"
+    description: "The build step outcome from [steps.BUILDSTEP.outcome], one of: [success failure cancelled skipped]"
     required: true
   build-success:
     description: "The build step's [success] output"
     required: true
   send-on:
-    description: "Optionally specifies a space separated list of build outcomes that will trigger the notification or one of: `always`, `build-success`, or `build-fail"
+    description: "Optionally specifies a space separated list of build outcomes that will trigger the notification or one of: [always test-success test-fail success failure cancelled skipped]"
     required: false
     default: always
 runs:
