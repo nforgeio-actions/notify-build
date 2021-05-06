@@ -54,7 +54,7 @@ inputs:
     description: "The build step's [success] output"
     required: true
   send-on:
-    description: "Optionally specifies a space separated list of build outcomes that will trigger the notification or one of: [always test-success test-fail success failure cancelled skipped]"
+    description: "Optionally specifies a space separated list of build outcomes that will trigger the notification or one of: [always build-success build-fail success failure cancelled skipped]"
     required: false
     default: always
 runs:
