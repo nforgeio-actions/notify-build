@@ -48,7 +48,7 @@ try
     $startTime      = Get-ActionInput "start-time"       $false
     $finishTime     = Get-ActionInput "finish-time"      $false
     $buildOutcome   = Get-ActionInput "build-outcome"    $true
-    $buildSuccess   = $(Get-ActionInput "build-success" $true) -eq "true"
+    $buildSuccess   = Get-ActionInputBool "build-success"
     $sendOn         = Get-ActionInput "send-on"          $false
 
     if ([System.String]::IsNullOrEmpty($buildConfig))
