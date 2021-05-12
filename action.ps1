@@ -237,7 +237,7 @@ try
         },
         {
           "name": "Issue:",
-          "value": ""@issue-uri"
+          "value": "@issue-uri"
         },
         {
           "name": "Runner:",
