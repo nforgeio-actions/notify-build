@@ -39,17 +39,18 @@ try
 {      
     # Fetch the inputs.
 
-    $channel        = Get-ActionInput "channel"          $true
-    $buildSummary   = Get-ActionInput "build-summary"    $true
-    $buildBranch    = Get-ActionInput "build-branch"     $false
-    $buildConfig    = Get-ActionInput "build-config"     $false
-    $buildCommit    = Get-ActionInput "build-commit"     $false
-    $buildCommitUri = Get-ActionInput "build-commit-uri" $false
-    $startTime      = Get-ActionInput "start-time"       $false
-    $finishTime     = Get-ActionInput "finish-time"      $false
-    $buildOutcome   = Get-ActionInput "build-outcome"    $true
+    $channel        = Get-ActionInput     "channel"          $true
+    $buildSummary   = Get-ActionInput     "build-summary"    $true
+    $buildBranch    = Get-ActionInput     "build-branch"     $false
+    $buildConfig    = Get-ActionInput     "build-config"     $false
+    $buildCommit    = Get-ActionInput     "build-commit"     $false
+    $buildCommitUri = Get-ActionInput     "build-commit-uri" $false
+    $startTime      = Get-ActionInput     "start-time"       $false
+    $finishTime     = Get-ActionInput     "finish-time"      $false
+    $buildOutcome   = Get-ActionInput     "build-outcome"    $true
     $buildSuccess   = Get-ActionInputBool "build-success"
-    $sendOn         = Get-ActionInput "send-on"          $false
+    $buildIssueUri  = Get-ActionInput     "build-issue-uri"  $false
+    $sendOn         = Get-ActionInput     "send-on"          $false
 
     if ([System.String]::IsNullOrEmpty($buildConfig))
     {
@@ -63,6 +64,11 @@ try
     if ([System.String]::IsNullOrEmpty($testFilter))
     {
         $testFilter = "-na-"
+    }
+
+    if ([System.String]::IsNullOrEmpty($buildIssueUri))
+    {
+        $buildIssueUri = "-na-"
     }
 
     # Exit if the notification shouldn't be transmitted based on the build step outcome
@@ -230,6 +236,10 @@ try
           "value": "@build-commit-uri"
         },
         {
+          "name": "Issue:",
+          "value": "@issueUri"
+        },
+        {
           "name": "Runner:",
           "value": "@runner"
         },
@@ -271,6 +281,7 @@ try
 
     $card = $card.Replace("@build-summary", $buildSummary)
     $card = $card.Replace("@trigger", $trigger)
+    $card = $card.Replace("@issueuri", $buildIssueUri)
     $card = $card.Replace("@runner", $env:COMPUTERNAME)
     $card = $card.Replace("@build-branch", $buildBranch)
     $card = $card.Replace("@build-config", $buildConfig)
