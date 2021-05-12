@@ -237,7 +237,7 @@ try
         },
         {
           "name": "Issue:",
-          "value": "@issueUri"
+          "value": ""@issue-uri"
         },
         {
           "name": "Runner:",
@@ -281,7 +281,7 @@ try
 
     $card = $card.Replace("@build-summary", $buildSummary)
     $card = $card.Replace("@trigger", $trigger)
-    $card = $card.Replace("@issueuri", $buildIssueUri)
+    $card = $card.Replace("@issue-uri", $buildIssueUri)
     $card = $card.Replace("@runner", $env:COMPUTERNAME)
     $card = $card.Replace("@build-branch", $buildBranch)
     $card = $card.Replace("@build-config", $buildConfig)
