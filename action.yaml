@@ -57,6 +57,10 @@ inputs:
     description: "Optionally specifies the issue URI for failed builds"
     required: false
     default: ""
+  build-log-uri:
+    description: "Optionally specifies the URI to the build log"
+    required: false
+    default: ""
   send-on:
     description: "Optionally specifies a space separated list of build outcomes that will trigger the notification or one of: [always build-success build-fail success failure cancelled skipped]"
     required: false

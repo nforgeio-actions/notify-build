@@ -48,8 +48,9 @@ try
     $startTime      = Get-ActionInput     "start-time"       $false
     $finishTime     = Get-ActionInput     "finish-time"      $false
     $buildOutcome   = Get-ActionInput     "build-outcome"    $true
-    $buildSuccess   = Get-ActionInputBool "build-success"
+    $buildSuccess   = Get-ActionInputBool "build-success"    $true
     $buildIssueUri  = Get-ActionInput     "build-issue-uri"  $false
+    $buildLogUri    = Get-ActionInput     "build-log-uri"    $false
     $sendOn         = Get-ActionInput     "send-on"          $false
 
     if ([System.String]::IsNullOrEmpty($buildConfig))
@@ -69,6 +70,11 @@ try
     if ([System.String]::IsNullOrEmpty($buildIssueUri))
     {
         $buildIssueUri = "-na-"
+    }
+
+    if ([System.String]::IsNullOrEmpty($buildLogUri))
+    {
+        $buildLogUri = "-na-"
     }
 
     # Exit if the notification shouldn't be transmitted based on the build step outcome
@@ -236,6 +242,10 @@ try
           "value": "@build-commit-uri"
         },
         {
+          "name": "Log:",
+          "value": "@build-log-uri"
+        },
+        {
           "name": "Issue:",
           "value": "@issue-uri"
         },
@@ -286,6 +296,7 @@ try
     $card = $card.Replace("@build-branch", $buildBranch)
     $card = $card.Replace("@build-config", $buildConfig)
     $card = $card.Replace("@build-commit-uri", $buildCommitUri)
+    $card = $card.Replace("@build-log-uri", $buildLogUri)
     $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
     $card = $card.Replace("@workflow-run-uri", $workflowRunUri)
     $card = $card.Replace("@workflow-uri", $workflowUri)
