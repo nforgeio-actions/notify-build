@@ -39,19 +39,23 @@ try
 {      
     # Fetch the inputs.
 
-    $channel        = Get-ActionInput     "channel"          $true
-    $buildSummary   = Get-ActionInput     "build-summary"    $true
-    $buildBranch    = Get-ActionInput     "build-branch"     $false
-    $buildConfig    = Get-ActionInput     "build-config"     $false
-    $buildCommit    = Get-ActionInput     "build-commit"     $false
-    $buildCommitUri = Get-ActionInput     "build-commit-uri" $false
-    $startTime      = Get-ActionInput     "start-time"       $false
-    $finishTime     = Get-ActionInput     "finish-time"      $false
-    $buildOutcome   = Get-ActionInput     "build-outcome"    $true
-    $buildSuccess   = Get-ActionInputBool "build-success"    $true
-    $buildIssueUri  = Get-ActionInput     "build-issue-uri"  $false
-    $buildLogUri    = Get-ActionInput     "build-log-uri"    $false
-    $sendOn         = Get-ActionInput     "send-on"          $false
+    $channel          = Get-ActionInput     "channel"            $true
+    $buildSummary     = Get-ActionInput     "build-summary"      $true
+    $buildBranch      = Get-ActionInput     "build-branch"       $false
+    $buildConfig      = Get-ActionInput     "build-config"       $false
+    $buildCommit      = Get-ActionInput     "build-commit"       $false
+    $buildCommitUri   = Get-ActionInput     "build-commit-uri"   $false
+    $startTime        = Get-ActionInput     "start-time"         $false
+    $finishTime       = Get-ActionInput     "finish-time"        $false
+    $buildOutcome     = Get-ActionInput     "build-outcome"      $true
+    $buildSuccess     = Get-ActionInputBool "build-success"      $true
+    $buildLogUri      = Get-ActionInput     "build-log-uri"      $false
+    $issueRepo        = Get-ActionInput     "issue-repo"         $false
+    $issueTitle       = Get-ActionInput     "issue-title"        $false
+    $issueAssignees   = Get-ActionInput     "issue-assignees"    $false
+    $issueLabels      = Get-ActionInput     "issue-labels"       $false
+    $issueAppendLabel = Get-ActionInput     "issue-append-label" $false
+    $sendOn           = Get-ActionInput     "send-on"            $false
 
     if ([System.String]::IsNullOrEmpty($buildConfig))
     {
@@ -65,11 +69,6 @@ try
     if ([System.String]::IsNullOrEmpty($testFilter))
     {
         $testFilter = "-na-"
-    }
-
-    if ([System.String]::IsNullOrEmpty($buildIssueUri))
-    {
-        $buildIssueUri = "-na-"
     }
 
     if ([System.String]::IsNullOrEmpty($buildLogUri))
@@ -123,6 +122,15 @@ try
         $buildCommitUri = "[$buildCommit]($buildCommitUri)"
     }
 
+    if ([System.String]::IsNullOrEmpty($buildLogUri))
+    {
+        $buildLogLinl = "-na-"
+    }
+    else
+    {
+        $buildLogLink = "<a href=`"$buildLogUri`">link</a>"
+    }
+
     # Parse the optional start/finish times and compute the elapsed time.  Note that
     # we're going to display "-na" when either of these timestamps were not passed.
 
@@ -168,6 +176,135 @@ try
     {
         $trigger = "Event trigger: **$eventName**"
     }
+
+    #--------------------------------------------------------------------------
+    # Create an issue if enabled and the build failed or append to an existing
+    # open issue with the same title and label.
+
+    $issueUri = "-na-"
+
+    if (!$buildSuccess -and ![System.String]::IsNullOrEmpty($issueRepo))
+    {
+        if (![System.String]::IsNullOrEmpty($issueTitle))
+        {
+            $issueTitle = "Build failed!"
+        }
+
+        $assignees = @()
+
+        if (![System.String]::IsNullOrEmpty($issueAssignees))
+        {
+            ForEach ($assignee in $issueAssignees.Split(" "))
+            {
+                $assignee = $assignee.Trim();
+                
+                if ([System.String]::IsNullOrEmpty($asignee))
+                {
+                    Continue;
+                }
+
+                $assignees += $assignee
+            }
+        }
+
+        $labels = @()
+
+        if (![System.String]::IsNullOrEmpty($issueLabels))
+        {
+            ForEach ($label in $issueLabels.Split(" "))
+            {
+                $label = $label.Trim();
+                
+                if ([System.String]::IsNullOrEmpty($label))
+                {
+                    Continue;
+                }
+
+                $labels += $label
+            }
+        }
+
+        $issueBody =
+@'
+<table>
+<tr>
+  <td><b>Outcome:</b></td>
+  <td><b>BUILD FAILED</b></td>
+</tr>
+<tr>
+  <td><b>Build Log:</b></td>
+  <td>@build-log-link</td>
+</tr>
+<tr>
+  <td><b>Branch:</b></td>
+  <td>@build-branch</td>
+</tr>
+<tr>
+  <td><b>Config:</b></td>
+  <td>@build-config</td>
+</tr>
+<tr>
+  <td><b>Commit:</b></td>
+  <td>@build-commit</td>
+</tr>
+<tr>
+  <td><b>Runner:</b></td>
+  <td>@runner</td>
+</tr>
+<tr>
+  <td><b>Workflow Run:</b></td>
+  <td><a href="@workflow-run-uri">link</a></td>
+</tr>
+<tr>
+  <td><b>Workflow:</b></td>
+  <td><a href="@workflow-uri">link</a></td>
+</tr>
+</table>
+'@
+        if ([System.String]::IsNullOrEmpty($buildBranch))
+        {
+            $buildBranch = "-na-"
+        }
+
+        if ([System.String]::IsNullOrEmpty($buildConfig))
+        {
+            $buildConfig = "-na-"
+        }
+
+        if (![System.String]::IsNullOrEmpty($buildCommit) -and ![System.String]::IsNullOrEmpty($buildCommitUri))
+        {
+            $buildCommit = "<a href=`"$buildCommitUri`">$buildCommit</a>"
+        }
+        else
+        {
+            $buildCommit = "-na-"
+        }
+
+        $runner = $env:COMPUTERNAME
+        $runner = $runner.ToUpper()
+
+        $issueBody = $issueBody.Replace("@build-log-link", $buildLogLink)
+        $issueBody = $issueBody.Replace("@build-branch", $buildBranch)
+        $issueBody = $issueBody.Replace("@build-config", $buildConfig)
+        $issueBody = $issueBody.Replace("@build-commit", $buildCommit)
+        $issueBody = $issueBody.Replace("@runner", $runner)
+        $issueBody = $issueBody.Replace("@workflow-run-uri", $workflowRunUri)
+        $issueBody = $issueBody.Replace("@workflow-uri", $workflowUri)
+
+        # Create the new issue or append to an existing one with the 
+        # same author, append label, and title.
+
+        $issueUri = New-GitHubIssue -Repo           $repoPath `
+                                    -Title          $issueTitle `
+                                    -Body           $issueBody `
+                                    -AppendLabel    $issueAppendLabel `
+                                    -Labels         $labels `
+                                    -Assignees      $issueAssignees `
+                                    -MasterPassword $env:MASTER_PASSWORD
+    }
+
+    #--------------------------------------------------------------------------
+    # Send the MSFT Teams notification
 
     # Set the theme color based on the build outcome/success inputs.
 
@@ -291,12 +428,12 @@ try
 
     $card = $card.Replace("@build-summary", $buildSummary)
     $card = $card.Replace("@trigger", $trigger)
-    $card = $card.Replace("@issue-uri", $buildIssueUri)
     $card = $card.Replace("@runner", $env:COMPUTERNAME)
     $card = $card.Replace("@build-branch", $buildBranch)
     $card = $card.Replace("@build-config", $buildConfig)
     $card = $card.Replace("@build-commit-uri", $buildCommitUri)
     $card = $card.Replace("@build-log-uri", $buildLogUri)
+    $card = $card.Replace("@issue-uri", $issueUri)
     $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
     $card = $card.Replace("@workflow-run-uri", $workflowRunUri)
     $card = $card.Replace("@workflow-uri", $workflowUri)
