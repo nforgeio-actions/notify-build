@@ -56,6 +56,7 @@ try
     $issueLabels      = Get-ActionInput     "issue-labels"       $false
     $issueAppendLabel = Get-ActionInput     "issue-append-label" $false
     $sendOn           = Get-ActionInput     "send-on"            $false
+Write-Info "*** NOTIFY-BUILD: artifact-uri: $buildLogUri"
 
     if ([System.String]::IsNullOrEmpty($buildConfig))
     {
