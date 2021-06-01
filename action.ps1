@@ -122,13 +122,18 @@ try
         $buildCommitUri = "[$buildCommit]($buildCommitUri)"
     }
 
+    # Set $buildLogHtmlLink and $buildLogMdLink to the HTML and Mark Down
+    # links to the build log, if any.
+
     if ([System.String]::IsNullOrEmpty($buildLogUri))
     {
-        $buildLogLinl = "-na-"
+        $buildLogHtmlLink = "-na-"
+        $BuildLogMdLink   = "-na-"
     }
     else
     {
-        $buildLogLink = "<a href=`"$buildLogUri`">link</a>"
+        $buildLogHtmlLink = "<a href=`"$buildLogUri`">link</a>"
+        $BuildLogMdLink   = "[link]($buildLogUri)"
     }
 
     # Parse the optional start/finish times and compute the elapsed time.  Note that
@@ -283,7 +288,7 @@ try
         $runner = $env:COMPUTERNAME
         $runner = $runner.ToUpper()
 
-        $issueBody = $issueBody.Replace("@build-log-link", $buildLogLink)
+        $issueBody = $issueBody.Replace("@build-log-link", $buildLogHtmlLink)
         $issueBody = $issueBody.Replace("@build-branch", $buildBranch)
         $issueBody = $issueBody.Replace("@build-config", $buildConfig)
         $issueBody = $issueBody.Replace("@build-commit", $buildCommit)
@@ -432,7 +437,7 @@ try
     $card = $card.Replace("@build-branch", $buildBranch)
     $card = $card.Replace("@build-config", $buildConfig)
     $card = $card.Replace("@build-commit-uri", $buildCommitUri)
-    $card = $card.Replace("@build-log-uri", $buildLogUri)
+    $card = $card.Replace("@build-log-uri", $BuildLogMdLink)
     $card = $card.Replace("@issue-uri", $issueUri)
     $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
     $card = $card.Replace("@workflow-run-uri", $workflowRunUri)
