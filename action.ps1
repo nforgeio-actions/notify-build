@@ -278,7 +278,7 @@ try
             $buildCommit = "-na-"
         }
 
-        $runner = $env:COMPUTERNAME
+        $runner = Get-ProfileValue "runner.name"
         $runner = $runner.ToUpper()
 
         $issueBody = $issueBody.Replace("@build-log-link", $buildLogHtmlLink)
@@ -426,7 +426,7 @@ try
 
     $card = $card.Replace("@build-summary", $buildSummary)
     $card = $card.Replace("@trigger", $trigger)
-    $card = $card.Replace("@runner", $env:COMPUTERNAME)
+    $card = $card.Replace("@runner", $runner)
     $card = $card.Replace("@build-branch", $buildBranchMd)
     $card = $card.Replace("@build-config", $buildConfig)
     $card = $card.Replace("@build-commit-uri", $buildCommitUri)
