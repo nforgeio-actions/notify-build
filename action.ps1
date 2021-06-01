@@ -299,7 +299,7 @@ try
         # Create the new issue or append to an existing one with the 
         # same author, append label, and title.
 
-        $issueUri = New-GitHubIssue -Repo           $repoPath `
+        $issueUri = New-GitHubIssue -Repo           $issueRepo `
                                     -Title          $issueTitle `
                                     -Body           $issueBody `
                                     -AppendLabel    $issueAppendLabel `
