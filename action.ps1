@@ -45,6 +45,7 @@ try
     $buildConfig      = Get-ActionInput     "build-config"       $false
     $buildCommit      = Get-ActionInput     "build-commit"       $false
     $buildCommitUri   = Get-ActionInput     "build-commit-uri"   $false
+    $buildLogUri      = Get-ActionInput     "build-log-uri"      $false
     $startTime        = Get-ActionInput     "start-time"         $false
     $finishTime       = Get-ActionInput     "finish-time"        $false
     $buildOutcome     = Get-ActionInput     "build-outcome"      $true
@@ -69,11 +70,6 @@ try
     if ([System.String]::IsNullOrEmpty($testFilter))
     {
         $testFilter = "-na-"
-    }
-
-    if ([System.String]::IsNullOrEmpty($buildLogUri))
-    {
-        $buildLogUri = "-na-"
     }
 
     # Exit if the notification shouldn't be transmitted based on the build step outcome
@@ -106,11 +102,13 @@ try
 
     if ([System.String]::IsNullOrEmpty($buildBranch))
     {
-        $buildBranch = "-na-"
+        $buildBranchHtml = "-na-"
+        $buildBranchMd   = "-na-"
     }
     else
     {
-        $buildBranch = "**$buildBranch**"
+        $buildBranchHtml = "<b>$buildBranch</b>"
+        $buildBranchMd   = "**$buildBranch**"
     }
 
     if ([System.String]::IsNullOrEmpty($buildCommit) -or [System.String]::IsNullOrEmpty($buildCommitUri))
@@ -237,10 +235,6 @@ try
   <td><b>BUILD FAILED</b></td>
 </tr>
 <tr>
-  <td><b>Build Log:</b></td>
-  <td>@build-log-link</td>
-</tr>
-<tr>
   <td><b>Branch:</b></td>
   <td>@build-branch</td>
 </tr>
@@ -251,6 +245,10 @@ try
 <tr>
   <td><b>Commit:</b></td>
   <td>@build-commit</td>
+</tr>
+<tr>
+  <td><b>Log:</b></td>
+  <td>@build-log-link</td>
 </tr>
 <tr>
   <td><b>Runner:</b></td>
@@ -266,11 +264,6 @@ try
 </tr>
 </table>
 '@
-        if ([System.String]::IsNullOrEmpty($buildBranch))
-        {
-            $buildBranch = "-na-"
-        }
-
         if ([System.String]::IsNullOrEmpty($buildConfig))
         {
             $buildConfig = "-na-"
@@ -289,7 +282,7 @@ try
         $runner = $runner.ToUpper()
 
         $issueBody = $issueBody.Replace("@build-log-link", $buildLogHtmlLink)
-        $issueBody = $issueBody.Replace("@build-branch", $buildBranch)
+        $issueBody = $issueBody.Replace("@build-branch", $buildBranchHtml)
         $issueBody = $issueBody.Replace("@build-config", $buildConfig)
         $issueBody = $issueBody.Replace("@build-commit", $buildCommit)
         $issueBody = $issueBody.Replace("@runner", $runner)
@@ -434,7 +427,7 @@ try
     $card = $card.Replace("@build-summary", $buildSummary)
     $card = $card.Replace("@trigger", $trigger)
     $card = $card.Replace("@runner", $env:COMPUTERNAME)
-    $card = $card.Replace("@build-branch", $buildBranch)
+    $card = $card.Replace("@build-branch", $buildBranchMd)
     $card = $card.Replace("@build-config", $buildConfig)
     $card = $card.Replace("@build-commit-uri", $buildCommitUri)
     $card = $card.Replace("@build-log-uri", $BuildLogMdLink)
