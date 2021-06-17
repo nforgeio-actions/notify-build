@@ -49,7 +49,7 @@ try
     $startTime        = Get-ActionInput     "start-time"         $false
     $finishTime       = Get-ActionInput     "finish-time"        $false
     $buildOutcome     = Get-ActionInput     "build-outcome"      $true
-    $buildSuccess     = Get-ActionInputBool "build-success"      $true
+    $buildSuccess     = Get-ActionInputBool "build-success"      $false $false
     $buildLogUri      = Get-ActionInput     "build-log-uri"      $false
     $issueRepo        = Get-ActionInput     "issue-repo"         $false
     $issueTitle       = Get-ActionInput     "issue-title"        $false
