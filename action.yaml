@@ -78,7 +78,7 @@ inputs:
     required: false
     default: ""
   send-on:
-    description: "Optionally specifies a space separated list of build outcomes that will trigger the notification or one of: [always build-success build-fail success failure cancelled skipped]"
+    description: "Optionally specifies a space separated list of build outcomes that will trigger the notification (always build-success build-fail success failure cancelled skipped)"
     required: false
     default: always
 runs:
