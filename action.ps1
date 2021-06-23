@@ -130,8 +130,8 @@ try
     }
     else
     {
-        $buildLogHtmlLink = "<a href=`"$buildLogUri`">link</a>"
-        $BuildLogMdLink   = "[link]($buildLogUri)"
+        $buildLogHtmlLink = "<a href=`"$buildLogUri`">build log</a>"
+        $BuildLogMdLink   = "[build log]($buildLogUri)"
     }
 
     # Parse the optional start/finish times and compute the elapsed time.  Note that
