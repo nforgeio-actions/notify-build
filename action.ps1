@@ -188,7 +188,7 @@ try
 
     if (!$buildSuccess -and ![System.String]::IsNullOrEmpty($issueRepo))
     {
-        if (![System.String]::IsNullOrEmpty($issueTitle))
+        if ([System.String]::IsNullOrEmpty($issueTitle))
         {
             $issueTitle = "Build failed!"
         }
