@@ -192,6 +192,10 @@ try
         {
             $issueTitle = "Build failed!"
         }
+        else
+        {
+            $issueTitle = "FAILED: $issueTitle"
+        }
 
         $assignees = @()
 
