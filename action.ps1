@@ -50,7 +50,6 @@ try
     $finishTime       = Get-ActionInput     "finish-time"        $false
     $buildOutcome     = Get-ActionInput     "build-outcome"      $true
     $buildSuccess     = Get-ActionInputBool "build-success"      $false $false
-    $buildLogUri      = Get-ActionInput     "build-log-uri"      $false
     $issueRepo        = Get-ActionInput     "issue-repo"         $false
     $issueTitle       = Get-ActionInput     "issue-title"        $false
     $issueAssignees   = Get-ActionInput     "issue-assignees"    $false
@@ -126,12 +125,12 @@ try
     if ([System.String]::IsNullOrEmpty($buildLogUri))
     {
         $buildLogHtmlLink = "-na-"
-        $BuildLogMdLink   = "-na-"
+        $buildLogMdLink   = "-na-"
     }
     else
     {
         $buildLogHtmlLink = "<a href=`"$buildLogUri`">build log</a>"
-        $BuildLogMdLink   = "[build log]($buildLogUri)"
+        $buildLogMdLink   = "[build log]($buildLogUri)"
     }
 
     # Parse the optional start/finish times and compute the elapsed time.  Note that
@@ -434,7 +433,7 @@ try
     $card = $card.Replace("@build-branch", $buildBranchMd)
     $card = $card.Replace("@build-config", $buildConfig)
     $card = $card.Replace("@build-commit-uri", $buildCommitUri)
-    $card = $card.Replace("@build-log-uri", $BuildLogMdLink)
+    $card = $card.Replace("@build-log-uri", $buildLogMdLink)
     $card = $card.Replace("@issue-uri", $issueUri)
     $card = $card.Replace("@build-outcome", $buildOutcome.ToUpper())
     $card = $card.Replace("@workflow-run-uri", $workflowRunUri)
