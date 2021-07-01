@@ -154,6 +154,11 @@ try
     $workflowUri    = Get-ActionWorkflowUri
     $workflowRunUri = Get-ActionWorkflowRunUri
 
+    # Fetch the runner name.
+
+    $runner = Get-ProfileValue "runner.name"
+    $runner = $runner.ToUpper()
+
     # Determine the reason why the workflow was triggered based on the GITHUB_EVENT_NAME
     # and GITHUB_ACTOR environment variables.
 
@@ -280,9 +285,6 @@ try
         {
             $buildCommit = "-na-"
         }
-
-        $runner = Get-ProfileValue "runner.name"
-        $runner = $runner.ToUpper()
 
         $issueBody = $issueBody.Replace("@build-log-link", $buildLogHtmlLink)
         $issueBody = $issueBody.Replace("@build-branch", $buildBranchHtml)
