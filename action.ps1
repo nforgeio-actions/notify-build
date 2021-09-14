@@ -205,13 +205,13 @@ try
 
         if (![System.String]::IsNullOrEmpty($issueAssignees))
         {
-            ForEach ($assignee in $issueAssignees.Split(" "))
+            foreach ($assignee in $issueAssignees.Split(" "))
             {
                 $assignee = $assignee.Trim();
                 
                 if ([System.String]::IsNullOrEmpty($asignee))
                 {
-                    Continue;
+                    continue;
                 }
 
                 $assignees += $assignee
@@ -222,13 +222,13 @@ try
 
         if (![System.String]::IsNullOrEmpty($issueLabels))
         {
-            ForEach ($label in $issueLabels.Split(" "))
+            foreach ($label in $issueLabels.Split(" "))
             {
                 $label = $label.Trim();
                 
                 if ([System.String]::IsNullOrEmpty($label))
                 {
-                    Continue;
+                    continue;
                 }
 
                 $labels += $label
@@ -313,7 +313,7 @@ try
 
     $themeColor = "ff0000" # green
 
-    Switch ($buildOutcome)
+    switch ($buildOutcome)
     {
         "success"
         {
